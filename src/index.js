@@ -6,7 +6,18 @@ import About from './pages/About';
 import Login from './pages/Login';
 import auth from './auth';
 import './index.css';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router';
+
+class PageNotFound extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Page Not Found.</h1>
+        <p>Go to <Link to="/">Home Page</Link></p>
+      </div>
+    )
+  }
+}
 
 const router = (
 <Router history={browserHistory}>
@@ -14,6 +25,7 @@ const router = (
       <IndexRoute component={Home} onEnter={requireAuth} />
       <Route path="about" component={About} />
       <Route path="login" component={Login} onEnter={requireAuth2} />
+      <Route path="*" component={PageNotFound} />
     </Route>
   </Router>
 );

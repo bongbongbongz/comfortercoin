@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
+import Nav from './components/Nav';
 
 class About extends Component {
     render() {
         return (
             <div>
-                About page
+                <Nav active="about"/>
+                <div className="container">   
+                    About page
+                </div>   
             </div>
         );
     }

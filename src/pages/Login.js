@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './style/Login.css';
+import { browserHistory } from 'react-router';
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -12,6 +13,8 @@ class Login extends Component {
     handleSubmit(e){
         e.preventDefault();
         alert("yeah");
+        localStorage.setItem('token', 233);
+    browserHistory.push('/');
     }
     
     render() {
@@ -19,7 +22,6 @@ class Login extends Component {
                 return (
             <div className="row main">
 				<div className="main-login main-center">
-				<h5>Sign up Below.</h5>
 					<form className="" method="post" action="#">
 						
 						<div className="form-group">
@@ -86,7 +88,6 @@ class Login extends Component {
         return (
             <div className="row main">
 				<div className="main-login main-center">
-				<h5>Login</h5>
 					<form onSubmit={this.handleSubmit}>
 						
 						<div className="form-group">

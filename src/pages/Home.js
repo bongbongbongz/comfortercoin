@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import User from './components/User';
-
+import Nav from './components/Nav';
 class Home extends Component {
     parent = "1234";
     data = [];
@@ -85,11 +85,12 @@ class Home extends Component {
     render() {
         return (
             <div>
-                Home page
-
-                {this.state.users.map((user, key)=>{
-                    return <User key={key} level={key} users={user}/>;
-                })}
+                <Nav active="home"/>
+                <div className="container">   
+                    {this.state.users.map((user, key)=>{
+                        return <User key={key} level={key} users={user}/>;
+                    })}
+                </div>
             </div>
         );
     }
