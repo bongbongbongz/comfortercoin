@@ -1,3 +1,5 @@
+// import firebase from '../api/firebase';
+
 module.exports = {
   login(email, pass, cb) {
     cb = arguments[arguments.length - 1]
@@ -29,7 +31,7 @@ module.exports = {
   },
 
   loggedIn() {
-    return !!localStorage.token
+    return  !!localStorage.token;//!!firebase.auth().currentUser;
   },
 
   onChange() {}

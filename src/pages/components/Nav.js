@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import auth from '../../auth';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 class Nav extends Component {
       constructor(props) {
     super(props);
     this.state = {
       loggedIn: auth.loggedIn()
     }
+
   }
   
   changeLogin(){
@@ -14,7 +15,6 @@ class Nav extends Component {
   }
 
   logout(){
-    alert('yeah');
     localStorage.removeItem('token');
     browserHistory.push('/login');
     this.setState({loggedIn:false});

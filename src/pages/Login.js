@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import './style/Login.css';
 import { browserHistory } from 'react-router';
+
+import firebase from '../api/firebase';
+
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -8,13 +11,25 @@ class Login extends Component {
             error: null,
             register: false
         }
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // User is signed in.
+                localStorage.setItem('token', 233);
+        browserHistory.push('/');
+            } else {
+                // No user is signed in.
+                alert('not authirized')
+            }
+        });
     }
 
     handleSubmit(e){
         e.preventDefault();
-        alert("yeah");
-        localStorage.setItem('token', 233);
-    browserHistory.push('/');
+        console.log(firebase.auth);
+        firebase.auth().signInWithEmailAndPassword('xolani22@admin.com','xolani');
+        // localStorage.setItem('token', 233);
+        // browserHistory.push('/');
     }
     
     render() {
