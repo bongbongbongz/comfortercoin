@@ -47,9 +47,11 @@ class Home extends Component {
             // levelArr[level] = data[parent];
             console.log("LEVELLLL "+this.level);
               for(var key in responseData){
-                  console.log(this.level, key, "YEAHHHHHHHH");
-                that.getDetails(this.level, key);
-                that.getChildren(data, levelArr, key)
+                //   console.log(this.level, key, "YEAHHHHHHHH");
+                if (responseData.hasOwnProperty(key)) {
+                    that.getDetails(this.level, key);
+                    that.getChildren(data, levelArr, key)
+                }
               }
               
           }
@@ -86,8 +88,7 @@ class Home extends Component {
                 Home page
 
                 {this.state.users.map((user, key)=>{
-                    {console.log(key)}
-                    return <User level={key} users={user}/>;
+                    return <User key={key} level={key} users={user}/>;
                 })}
             </div>
         );

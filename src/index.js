@@ -6,7 +6,7 @@ import About from './pages/About';
 import Login from './pages/Login';
 import auth from './auth';
 import './index.css';
-import { Router, Route, Link, Redirect, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 const router = (
 <Router history={browserHistory}>
