@@ -68,6 +68,14 @@ class Login extends Component {
     }
     
     render() {
+        if(!this.state.ready){
+            return             (<div className="row main">
+				<div className="main-login main-center">
+                <h1>Loading...</h1>
+            </div>
+            </div>
+            );
+        }
         if (this.state.register){
                 return (
             <div className="row main">
