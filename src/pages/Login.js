@@ -12,6 +12,7 @@ class Login extends Component {
             register: false
         }
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
+        this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
 
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
@@ -30,7 +31,7 @@ class Login extends Component {
     handleLoginSubmit(e){
         e.preventDefault();
         const email = this.refs.email.value
-      const pass = this.refs.pass.value
+        const pass = this.refs.pass.value
         firebase.auth().signInWithEmailAndPassword(email,pass)
         .catch(err=>{
             alert(err.message);
@@ -41,7 +42,29 @@ class Login extends Component {
 
     handleRegisterSubmit(e){
         e.preventDefault();
+        const email = this.refs.email.value
+        const pass = this.refs.pass.value
+        const phoneNo = +this.refs.phone.value
+        const bitcoinWallet = this.refs.bitcoinWallet.value
+        const sponsorId = +this.refs.sponsorId.value
+        const address = this.refs.address.value
+        const postcode = this.refs.postcode.value
+        const country = this.refs.country.value
+        const fullName = this.refs.fullname.value
 
+        var database = firebase.database();
+        alert("starting");
+        database.ref('smartMoney/users/').orderByChild("number").equalTo(sponsorId).on("child_added", function(snap) {
+            firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
+                firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
+                    .set({email:snapshot.email,fullName, parent:sponsorId,number:phoneNo,bitcoinWallet:bitcoinWallet,
+                        address:address,postcode:postcode,country:country}).then(success=>{
+                        firebase.database().ref(`/smartMoney/users/${snap.key}/children/${snapshot.uid}`).set(true);
+                        //  console.log(success);
+                }).catch(e => console.log(e.message));
+
+            })
+        });
     }
     
     render() {
@@ -147,7 +170,7 @@ class Login extends Component {
 
 
 						<div className="form-group ">
-							<button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button">Register</button>
+							<button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Register</button>
 						</div>
 						
 					</form>

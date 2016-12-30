@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import User from './components/User';
 import Nav from './components/Nav';
+import firebase from '../api/firebase';
 class Home extends Component {
     parent = "1234";
     data = [];
@@ -16,12 +17,13 @@ class Home extends Component {
             data: [],
             parent: "1234"
         }
-        this.getChildren(this.data, this.levelArr, this.parent);
+        this.getChildren(this.data, this.levelArr, firebase.auth().currentUser.uid);
     }
 
     getChildren(data, levelArr, parent){
         var that = this;
-    fetch(`https://smart-money-f702e.firebaseio.com/smartMoney/test/${parent}/children.json?orderBy="$key"&limitToFirst=4`,
+        console.log(`https://smart-money-f702e.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"&limitToFirst=4`);
+    fetch(`https://smart-money-f702e.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"&limitToFirst=4`,
       {
           method: 'GET',
               headers: {
@@ -64,7 +66,7 @@ class Home extends Component {
 
     getDetails(level, parent){
     console.log("LEVELLLL "+level);
-    fetch(`https://smart-money-f702e.firebaseio.com/smartMoney/test/${parent}.json`,
+    fetch(`https://smart-money-f702e.firebaseio.com/smartMoney/users/${parent}.json`,
       {
           method: 'GET',
               headers: {
@@ -86,10 +88,14 @@ class Home extends Component {
         return (
             <div>
                 <Nav active="home"/>
-                <div className="container">   
+                <div className="container">  
+                
+
+
                     {this.state.users.map((user, key)=>{
                         return <User key={key} level={key} users={user}/>;
                     })}
+   
                 </div>
             </div>
         );
