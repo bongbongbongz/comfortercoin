@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import auth from '../../auth';
 import { browserHistory } from 'react-router';
+import firebase from '../../api/firebase';
 class Nav extends Component {
       constructor(props) {
     super(props);
@@ -16,6 +17,7 @@ class Nav extends Component {
 
   logout(){
     localStorage.removeItem('token');
+    firebase.auth().signOut();
     browserHistory.push('/login');
     this.setState({loggedIn:false});
   }
