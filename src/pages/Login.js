@@ -9,25 +9,26 @@ class Login extends Component {
         super(props);
         this.state = {
             error: null,
-            register: false
+            register: false,
+            ready: false
         }
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
         this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
 
-        firebase.auth().onAuthStateChanged(function(user) {
+        firebase.auth().onAuthStateChanged((user)=> {
             if (user) {
                 // User is signed in.
                 localStorage.setItem('token', firebase.auth().currentUser.uid);
                 browserHistory.push('/');
         
             } else {
-                
+                this.setState({ready:true})
                 // No user is signed in.
                 // alert('not authirized')
             }
         });
     }
-
+    
     handleLoginSubmit(e){
         e.preventDefault();
         const email = this.refs.email.value
@@ -53,7 +54,6 @@ class Login extends Component {
         const fullName = this.refs.fullname.value
 
         var database = firebase.database();
-        alert("starting");
         database.ref('smartMoney/users/').orderByChild("number").equalTo(sponsorId).on("child_added", function(snap) {
             firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
                 firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)

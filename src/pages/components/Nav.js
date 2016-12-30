@@ -18,8 +18,9 @@ class Nav extends Component {
   logout(){
     localStorage.removeItem('token');
     firebase.auth().signOut();
-    browserHistory.push('/login');
     this.setState({loggedIn:false});
+    browserHistory.push('/login');
+    
   }
     render() {
         return (
