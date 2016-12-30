@@ -19,7 +19,11 @@ class Nav extends Component {
     localStorage.removeItem('token');
     firebase.auth().signOut();
     this.setState({loggedIn:false});
-    browserHistory.push('/login');
+    
+    setTimeout(()=>{
+        browserHistory.push('/login');
+    }, 2000);
+    
     
   }
     render() {
