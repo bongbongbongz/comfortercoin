@@ -79,6 +79,7 @@ class Login extends Component {
         if (this.state.register){
                 return (
             <div className="row main">
+			 <body>
 				<div className="main-login main-center">
 					<form onSubmit={this.handleRegisterSubmit}>
 						
@@ -185,6 +186,7 @@ class Login extends Component {
                    
 				</div>
                 <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p>
+				</body>
 			</div>
         );
         }
