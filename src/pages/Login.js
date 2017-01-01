@@ -85,6 +85,10 @@ class Login extends Component {
 				return;
 			}
 			var parent = that.first(snap.val());
+			if(!parent){
+				alert('check sponsor ID');
+				return;
+			}
 			//checks if phone number is in use
 			that.checkPhoneNumber(phoneNo, ()=>{
 				firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
