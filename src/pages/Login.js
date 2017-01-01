@@ -99,7 +99,7 @@ class Login extends Component {
 							<label htmlFor="name" className="cols-sm-2 control-label">Your Name</label>
 							<div className="cols-sm-10">
 								<div className="input-group">
-									<span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
+								 <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
 									<input type="text" ref="fullname" required className="form-control" name="name" id="name"  placeholder="Enter your Name"/>
 								</div>
 							</div>
@@ -109,7 +109,7 @@ class Login extends Component {
 							<label htmlFor="email" className="cols-sm-2 control-label">Your Email</label>
 							<div className="cols-sm-10">
 								<div className="input-group">
-									<span className="input-group-addon"><i className="fa fa-envelope fa" aria-hidden="true"></i></span>
+									 <span className="input-group-addon"><i className="glyphicon glyphicon-envelope"></i></span>
 									<input type="text" ref="email" required className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
 								</div>
 							</div>
@@ -120,7 +120,7 @@ class Login extends Component {
 							<label htmlFor="phone" className="cols-sm-2 control-label">Phone Number</label>
 							<div className="cols-sm-10">
 								<div className="input-group">
-									<span className="input-group-addon"><i className="fa fa-users fa" aria-hidden="true"></i></span>
+									<span className="input-group-addon"><i className="glyphicon glyphicon-phone" aria-hidden="true"></i></span>
 									<input type="number" ref="phone" required className="form-control" name="phone" id="phone"  placeholder="Enter Phone Number"/>
 								</div>
 							</div>
@@ -130,9 +130,9 @@ class Login extends Component {
 							<label htmlFor="bitcoinWallet" className="cols-sm-2 control-label">bitcoinWallet</label>
 							<div className="cols-sm-10">
 								<div className="input-group">
-									<span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
+									<span className="input-group-addon"><i className="glyphicon glyphicon-bitcoins" aria-hidden="true"></i></span>
 									<input type="text" ref="bitcoinWallet" required className="form-control" name="bitcoinWallet" id="bitcoinWallet"  placeholder="Enter bitcoinWallet"/>
-								</div>
+								</div>	
 							</div>
 						</div>
 
@@ -140,20 +140,20 @@ class Login extends Component {
 							<label htmlFor="password" className="cols-sm-2 control-label">Address</label>
 							<div className="cols-sm-10">
 								<div className="input-group">
-									<span className="input-group-addon"><i className="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<span className="input-group-addon"><i className="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
 									<textarea ref="address" required className="form-control" placeholder="Address">
                                     </textarea>
 								</div>
 							</div>
                             <div className="cols-sm-10">
 								<div className="input-group">
-									<span className="input-group-addon"><i className="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<span className="input-group-addon"><i className="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
 									<input type="text" ref="country" required className="form-control" name="country" id="country"  placeholder="Country"/>
 								</div>
 							</div>
                             <div className="cols-sm-10">
 								<div className="input-group">
-									<span className="input-group-addon"><i className="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<span className="input-group-addon"><i className="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
 									<input type="text" required ref="postcode" className="form-control" name="postcode" id="postcode"  placeholder="Postcode"/>
 								</div>
 							</div>
@@ -163,7 +163,7 @@ class Login extends Component {
 							<label htmlFor="sponsorId" className="cols-sm-2 control-label">sponsorId</label>
 							<div className="cols-sm-10">
 								<div className="input-group">
-									<span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
+									<span className="input-group-addon"><i className="glyphicon glyphicon-user" aria-hidden="true"></i></span>
 									<input type="number" required ref="sponsorId" className="form-control" name="sponsorId" id="sponsorId"  placeholder="Enter sponsorId"/>
 								</div>
 							</div>
@@ -173,7 +173,7 @@ class Login extends Component {
 							<label htmlFor="pass" className="cols-sm-2 control-label">Password</label>
 							<div className="cols-sm-10">
 								<div className="input-group">
-									<span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
+									<span className="input-group-addon"><i className="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
 									<input type="password" required ref="pass" className="form-control" name="pass" id="pass"  placeholder="Password"/>
 								</div>
 							</div>
@@ -183,7 +183,7 @@ class Login extends Component {
 							<label htmlFor="confirm" className="cols-sm-2 control-label">Confirm Password</label>
 							<div className="cols-sm-10">
 								<div className="input-group">
-									<span className="input-group-addon"><i className="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+									<span className="input-group-addon"><i className="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
 									<input type="password" required ref="pass2" className="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
 								</div>
 							</div>
@@ -195,10 +195,9 @@ class Login extends Component {
 						</div>
 						 <center>  <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p> </center>
 					</form>
-                   
 				</div>
 
-                <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p>
+                
 
 			</div>
         );
