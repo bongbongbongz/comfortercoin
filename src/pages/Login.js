@@ -10,7 +10,8 @@ class Login extends Component {
         this.state = {
             error: null,
             register: false,
-            ready: false
+            ready: false,
+			busy: false
         }
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
         this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
@@ -42,6 +43,8 @@ class Login extends Component {
     }
 
     handleRegisterSubmit(e){
+		this.setState({busy:true});
+		var that = this;
         e.preventDefault();
         const email = this.refs.email.value
         const pass = this.refs.pass.value
@@ -54,13 +57,20 @@ class Login extends Component {
         const fullName = this.refs.fullname.value
 
         var database = firebase.database();
-        database.ref('smartMoney/users/').orderByChild("number").equalTo(sponsorId).on("child_added", function(snap) {
+        database.ref('smartMoney/users/').orderByChild("number").equalTo(sponsorId).once("value", function(snap) {
+
+			if(!snap.exists()){
+				alert(`sponsor ${sponsorId} does not exist`);
+				that.setState({busy:false});
+				return;
+			}
             firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
                 firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
                     .set({email:snapshot.email,fullName, parent:sponsorId,number:phoneNo,bitcoinWallet:bitcoinWallet,
                         address:address,postcode:postcode,country:country}).then(success=>{
                         firebase.database().ref(`/smartMoney/users/${snap.key}/children/${snapshot.uid}`).set(true);
                         //  console.log(success);
+						that.setState({busy:false});
                 }).catch(e => console.log(e.message));
 
             })
@@ -178,7 +188,7 @@ class Login extends Component {
 
 
 						<div className="form-group ">
-							<button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Register</button>
+							{this.state.busy ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> REGISTERING ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Register</button>}
 						</div>
 						
 					</form>
