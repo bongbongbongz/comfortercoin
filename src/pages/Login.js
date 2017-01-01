@@ -79,7 +79,6 @@ class Login extends Component {
         if (this.state.register){
                 return (
             <div className="row main">
-			 <body>
 				<div className="main-login main-center">
 					<form onSubmit={this.handleRegisterSubmit}>
 						
@@ -181,19 +180,17 @@ class Login extends Component {
 						<div className="form-group ">
 							<button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Register</button>
 						</div>
-						
+						 <center>  <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p> </center>
 					</form>
                    
 				</div>
-                <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p>
-				</body>
+              
 			</div>
         );
         }
 
         return (
-            <div className="row main">
-			 <body>
+            <div className="row main background">
 				<div className="main-login main-center">
 					<form onSubmit={this.handleLoginSubmit}>
 						
@@ -224,7 +221,7 @@ class Login extends Component {
 						<center> <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
 					</form>
 				</div>
-              </body>
+              
 			</div>
 			
         );
