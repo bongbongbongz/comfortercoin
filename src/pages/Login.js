@@ -87,7 +87,7 @@ class Login extends Component {
 							<div className="cols-sm-10">
 								<div className="input-group">
 									<span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
-									<input type="text" ref="fullname" className="form-control" name="name" id="name"  placeholder="Enter your Name"/>
+									<input type="text" ref="fullname" required className="form-control" name="name" id="name"  placeholder="Enter your Name"/>
 								</div>
 							</div>
 						</div>
@@ -97,7 +97,7 @@ class Login extends Component {
 							<div className="cols-sm-10">
 								<div className="input-group">
 									<span className="input-group-addon"><i className="fa fa-envelope fa" aria-hidden="true"></i></span>
-									<input type="text" ref="email" className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+									<input type="text" ref="email" required required className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
 								</div>
 							</div>
 						</div>
@@ -108,7 +108,7 @@ class Login extends Component {
 							<div className="cols-sm-10">
 								<div className="input-group">
 									<span className="input-group-addon"><i className="fa fa-users fa" aria-hidden="true"></i></span>
-									<input type="number" ref="phone" className="form-control" name="phone" id="phone"  placeholder="Enter your Username"/>
+									<input type="number" ref="phone" required className="form-control" name="phone" id="phone"  placeholder="Enter Phone Number"/>
 								</div>
 							</div>
 						</div>
@@ -118,7 +118,7 @@ class Login extends Component {
 							<div className="cols-sm-10">
 								<div className="input-group">
 									<span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
-									<input type="text" ref="bitcoinWallet" className="form-control" name="bitcoinWallet" id="bitcoinWallet"  placeholder="Enter your Name"/>
+									<input type="text" ref="bitcoinWallet" required className="form-control" name="bitcoinWallet" id="bitcoinWallet"  placeholder="Enter bitcoinWallet"/>
 								</div>
 							</div>
 						</div>
@@ -128,20 +128,20 @@ class Login extends Component {
 							<div className="cols-sm-10">
 								<div className="input-group">
 									<span className="input-group-addon"><i className="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<textarea ref="address" className="form-control" placeholder="Address">
+									<textarea ref="address" required className="form-control" placeholder="Address">
                                     </textarea>
 								</div>
 							</div>
                             <div className="cols-sm-10">
 								<div className="input-group">
 									<span className="input-group-addon"><i className="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="text" ref="country" className="form-control" name="country" id="country"  placeholder="Country"/>
+									<input type="text" ref="country" required className="form-control" name="country" id="country"  placeholder="Country"/>
 								</div>
 							</div>
                             <div className="cols-sm-10">
 								<div className="input-group">
 									<span className="input-group-addon"><i className="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="text" ref="postcode" className="form-control" name="postcode" id="postcode"  placeholder="Postcode"/>
+									<input type="text" required ref="postcode" className="form-control" name="postcode" id="postcode"  placeholder="Postcode"/>
 								</div>
 							</div>
 						</div>
@@ -151,7 +151,7 @@ class Login extends Component {
 							<div className="cols-sm-10">
 								<div className="input-group">
 									<span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
-									<input type="number" ref="sponsorId" className="form-control" name="sponsorId" id="sponsorId"  placeholder="Enter your Name"/>
+									<input type="number" required ref="sponsorId" className="form-control" name="sponsorId" id="sponsorId"  placeholder="Enter sponsorId"/>
 								</div>
 							</div>
 						</div>
@@ -161,7 +161,7 @@ class Login extends Component {
 							<div className="cols-sm-10">
 								<div className="input-group">
 									<span className="input-group-addon"><i className="fa fa-user fa" aria-hidden="true"></i></span>
-									<input type="password" ref="pass" className="form-control" name="pass" id="pass"  placeholder="Password"/>
+									<input type="password" required ref="pass" className="form-control" name="pass" id="pass"  placeholder="Password"/>
 								</div>
 							</div>
 						</div>
@@ -171,7 +171,7 @@ class Login extends Component {
 							<div className="cols-sm-10">
 								<div className="input-group">
 									<span className="input-group-addon"><i className="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" ref="pass2" className="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
+									<input type="password" required ref="pass2" className="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
 								</div>
 							</div>
 						</div>
@@ -182,7 +182,7 @@ class Login extends Component {
 						</div>
 						
 					</form>
-                    // email,pass,fullName,sponsorId,phoneNo,bitcoinWallet,address,postcode,country
+                   
 				</div>
                 <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p>
 			</div>
@@ -191,6 +191,7 @@ class Login extends Component {
 
         return (
             <div className="row main">
+			 <body>
 				<div className="main-login main-center">
 					<form onSubmit={this.handleLoginSubmit}>
 						
@@ -198,8 +199,8 @@ class Login extends Component {
 							<label htmlFor="email" className="cols-sm-2 control-label">Your Email</label>
 							<div className="cols-sm-10">
 								<div className="input-group">
-									<span className="input-group-addon"><i className="fa fa-envelope fa" aria-hidden="true"></i></span>
-									<input type="email" ref="email" className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+									 <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
+									<input type="email" required ref="email" className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
 								</div>
 							</div>
 						</div>
@@ -208,8 +209,8 @@ class Login extends Component {
 							<label htmlFor="password" className="cols-sm-2 control-label">Password</label>
 							<div className="cols-sm-10">
 								<div className="input-group">
-									<span className="input-group-addon"><i className="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" ref="pass" className="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+									<span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
+									<input type="password" required ref="pass" className="form-control" name="password" id="password"  placeholder="Enter your Password"/>
 								</div>
 							</div>
 						</div>
@@ -217,11 +218,13 @@ class Login extends Component {
 						<div className="form-group ">
 							<button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Login</button>
 						</div>
-						
+
+						<center> <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
 					</form>
 				</div>
-                <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p>
+              </body>
 			</div>
+			
         );
     }
 }
