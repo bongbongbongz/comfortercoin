@@ -32,10 +32,13 @@ class Login extends Component {
     
     handleLoginSubmit(e){
         e.preventDefault();
+		this.setState({busy:true});
+		var that = this;
         const email = this.refs.email.value
         const pass = this.refs.pass.value
         firebase.auth().signInWithEmailAndPassword(email,pass)
         .catch(err=>{
+			this.setState({busy:false});
             alert(err.message);
         });
         // localStorage.setItem('token', 233);
@@ -226,7 +229,7 @@ class Login extends Component {
 						</div>
 
 						<div className="form-group ">
-							<button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Login</button>
+							{this.state.busy ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> LOGGING IN ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Login</button>}
 						</div>
 
 						<center> <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
