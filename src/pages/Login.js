@@ -29,11 +29,13 @@ class Login extends Component {
             }
         });
     }
+	first(obj) {
+    	for (var a in obj) return a;
+	}
     
     handleLoginSubmit(e){
         e.preventDefault();
 		this.setState({busy:true});
-		var that = this;
         const email = this.refs.email.value
         const pass = this.refs.pass.value
         firebase.auth().signInWithEmailAndPassword(email,pass)
@@ -67,16 +69,19 @@ class Login extends Component {
 				that.setState({busy:false});
 				return;
 			}
+			var parent = that.first(snap.val());
             firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
                 firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
                     .set({email:snapshot.email,fullName, parent:sponsorId,number:phoneNo,bitcoinWallet:bitcoinWallet,
                         address:address,postcode:postcode,country:country}).then(success=>{
-                        firebase.database().ref(`/smartMoney/users/${snap.key}/children/${snapshot.uid}`).set(true);
+                        firebase.database().ref(`/smartMoney/users/${parent}/children/${snapshot.uid}`).set(true);
                         //  console.log(success);
 						that.setState({busy:false});
-                }).catch(e => console.log(e.message));
+                }).catch(e => alert(e.message));
 
-            })
+            }).catch(err=>{
+				alert(err.message);
+			})
         });
     }
     
