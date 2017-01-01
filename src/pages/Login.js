@@ -47,6 +47,20 @@ class Login extends Component {
         // browserHistory.push('/');
     }
 
+	checkPhoneNumber(num, cb){
+		var database = firebase.database();
+		var that = this;
+		database.ref('smartMoney/users/').orderByChild("number").equalTo(num).once("value", function(snap) {
+
+		if(snap.exists()){
+			alert(`Number ${num} Belongs to another user`);
+			that.setState({busy:false});
+			return;
+		}
+		cb();
+			});
+	}
+
     handleRegisterSubmit(e){
 		this.setState({busy:true});
 		var that = this;
@@ -62,6 +76,7 @@ class Login extends Component {
         const fullName = this.refs.fullname.value
 
         var database = firebase.database();
+		//checks if sponsor exists
         database.ref('smartMoney/users/').orderByChild("number").equalTo(sponsorId).once("value", function(snap) {
 
 			if(!snap.exists()){
@@ -70,18 +85,21 @@ class Login extends Component {
 				return;
 			}
 			var parent = that.first(snap.val());
-            firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
-                firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
-                    .set({email:snapshot.email,fullName, parent:sponsorId,number:phoneNo,bitcoinWallet:bitcoinWallet,
-                        address:address,postcode:postcode,country:country}).then(success=>{
-                        firebase.database().ref(`/smartMoney/users/${parent}/children/${snapshot.uid}`).set(true);
-                        //  console.log(success);
-						that.setState({busy:false});
-                }).catch(e => alert(e.message));
+			//checks if phone number is in use
+			that.checkPhoneNumber(phoneNo, ()=>{
+				firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
+					firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
+						.set({email:snapshot.email,fullName, parent:sponsorId,number:phoneNo,bitcoinWallet:bitcoinWallet,
+							address:address,postcode:postcode,country:country}).then(success=>{
+							firebase.database().ref(`/smartMoney/users/${parent}/children/${snapshot.uid}`).set(true);
+							//  console.log(success);
+							that.setState({busy:false});
+					}).catch(e => alert(e.message));
 
-            }).catch(err=>{
-				alert(err.message);
-			})
+				}).catch(err=>{
+					alert(err.message);
+				});
+			});
         });
     }
     
@@ -198,11 +216,14 @@ class Login extends Component {
 						<div className="form-group ">
 							{this.state.busy ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> REGISTERING ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Register</button>}
 						</div>
+
 						 <center>  <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p> </center>
+
+						<center> <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
+
 					</form>
 				</div>
 
-                
 
 			</div>
         );
