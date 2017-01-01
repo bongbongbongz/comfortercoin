@@ -89,7 +89,6 @@ class Login extends Component {
         if (this.state.register){
                 return (
             <div className="row main">
-			 <body>
 				<div className="main-login main-center">
 					<form onSubmit={this.handleRegisterSubmit}>
 						
@@ -108,7 +107,7 @@ class Login extends Component {
 							<div className="cols-sm-10">
 								<div className="input-group">
 									<span className="input-group-addon"><i className="fa fa-envelope fa" aria-hidden="true"></i></span>
-									<input type="text" ref="email" required required className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+									<input type="text" ref="email" required className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
 								</div>
 							</div>
 						</div>
@@ -196,14 +195,13 @@ class Login extends Component {
                    
 				</div>
                 <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p>
-				</body>
+
 			</div>
         );
         }
 
         return (
             <div className="row main">
-			 <body>
 				<div className="main-login main-center">
 					<form onSubmit={this.handleLoginSubmit}>
 						
@@ -234,7 +232,6 @@ class Login extends Component {
 						<center> <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
 					</form>
 				</div>
-              </body>
 			</div>
 			
         );
