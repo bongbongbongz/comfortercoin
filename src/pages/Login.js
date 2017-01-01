@@ -10,7 +10,8 @@ class Login extends Component {
         this.state = {
             error: null,
             register: false,
-            ready: false
+            ready: false,
+			busy: false
         }
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
         this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
@@ -31,10 +32,13 @@ class Login extends Component {
     
     handleLoginSubmit(e){
         e.preventDefault();
+		this.setState({busy:true});
+		var that = this;
         const email = this.refs.email.value
         const pass = this.refs.pass.value
         firebase.auth().signInWithEmailAndPassword(email,pass)
         .catch(err=>{
+			this.setState({busy:false});
             alert(err.message);
         });
         // localStorage.setItem('token', 233);
@@ -42,6 +46,8 @@ class Login extends Component {
     }
 
     handleRegisterSubmit(e){
+		this.setState({busy:true});
+		var that = this;
         e.preventDefault();
         const email = this.refs.email.value
         const pass = this.refs.pass.value
@@ -54,13 +60,20 @@ class Login extends Component {
         const fullName = this.refs.fullname.value
 
         var database = firebase.database();
-        database.ref('smartMoney/users/').orderByChild("number").equalTo(sponsorId).on("child_added", function(snap) {
+        database.ref('smartMoney/users/').orderByChild("number").equalTo(sponsorId).once("value", function(snap) {
+
+			if(!snap.exists()){
+				alert(`sponsor ${sponsorId} does not exist`);
+				that.setState({busy:false});
+				return;
+			}
             firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
                 firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
                     .set({email:snapshot.email,fullName, parent:sponsorId,number:phoneNo,bitcoinWallet:bitcoinWallet,
                         address:address,postcode:postcode,country:country}).then(success=>{
                         firebase.database().ref(`/smartMoney/users/${snap.key}/children/${snapshot.uid}`).set(true);
                         //  console.log(success);
+						that.setState({busy:false});
                 }).catch(e => console.log(e.message));
 
             })
@@ -97,7 +110,7 @@ class Login extends Component {
 							<div className="cols-sm-10">
 								<div className="input-group">
 									<span className="input-group-addon"><i className="fa fa-envelope fa" aria-hidden="true"></i></span>
-									<input type="text" ref="email" required required className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+									<input type="text" ref="email" required className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
 								</div>
 							</div>
 						</div>
@@ -178,19 +191,22 @@ class Login extends Component {
 
 
 						<div className="form-group ">
-							<button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Register</button>
+							{this.state.busy ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> REGISTERING ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Register</button>}
 						</div>
 						 <center>  <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p> </center>
 					</form>
                    
 				</div>
-              
+
+                <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p>
+
 			</div>
         );
         }
 
         return (
-            <div className="row main background">
+            <div className="row main">
+
 				<div className="main-login main-center">
 					<form onSubmit={this.handleLoginSubmit}>
 						
@@ -215,13 +231,13 @@ class Login extends Component {
 						</div>
 
 						<div className="form-group ">
-							<button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Login</button>
+							{this.state.busy ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> LOGGING IN ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Login</button>}
 						</div>
 
 						<center> <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
 					</form>
 				</div>
-              
+
 			</div>
 			
         );
