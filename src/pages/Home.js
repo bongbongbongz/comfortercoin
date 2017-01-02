@@ -12,7 +12,7 @@ class Home extends Component {
         this.state = {
             users: [],
             level: 1,
-            numLevels: 4,
+            numLevels: 5,
             levelArr: [],
             data: [],
             parent: "1234"

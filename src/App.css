@@ -26,3 +26,45 @@ body
 {
   background-color: #CFD8DC;
 }
+
+bar
+{
+  margin-top:10%
+}
+
+.navbar-custom {
+    background-color:#009688;
+    color:white;
+   -webkit-text-fill-color: white;
+   padding-top:18px;
+}
+
+.navbar .nav > li > a {
+    color: white;
+}
+.textcolor
+{
+  color: white; 
+}
+
+.row{
+margin-top:40px;
+padding: 0 10px;
+}
+.clickable{
+cursor: pointer;   
+}
+.panel-heading div {
+margin-top: -18px;
+font-size: 15px;
+}
+.panel-heading div span{
+margin-left:5px;
+}
+.panel-body{
+display: none;
+}
+.panel-color
+{
+  background-color:#009688;
+}
