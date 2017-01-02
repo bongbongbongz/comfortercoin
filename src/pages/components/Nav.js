@@ -49,7 +49,7 @@ class Nav extends Component {
                             <li className={this.props.active === 'contact' ? 'active' : null}><a href="/contact">Contact</a></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                        {this.state.loggedIn ? (
+                        {this.state.user ? (
                             <li className="dropdown">
                                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span className="caret"></span></a>
                                 <ul className="dropdown-menu">
