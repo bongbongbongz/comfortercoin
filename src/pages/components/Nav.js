@@ -6,7 +6,8 @@ class Nav extends Component {
       constructor(props) {
     super(props);
     this.state = {
-      loggedIn: auth.loggedIn()
+      loggedIn: auth.loggedIn(),
+      user: JSON.parse(localStorage.user_data)
     }
 
   }
@@ -52,7 +53,8 @@ class Nav extends Component {
                                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span className="caret"></span></a>
                                 <ul className="dropdown-menu">
                                 
-                                <li><a onClick={()=>this.logout()}>Logout</a></li>
+                                <li><a href="/profile">{this.state.user.fullName}</a></li>
+                                <li><a onClick={()=>this.logout()}>{'Logout'}</a></li>
                                 </ul>
                             </li>
                         ) : (

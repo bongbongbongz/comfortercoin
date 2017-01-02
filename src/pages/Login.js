@@ -19,8 +19,15 @@ class Login extends Component {
         firebase.auth().onAuthStateChanged((user)=> {
             if (user) {
                 // User is signed in.
-                localStorage.setItem('token', firebase.auth().currentUser.uid);
-                browserHistory.push('/');
+                
+				var database = firebase.database();
+				database.ref(`smartMoney/users/${firebase.auth().currentUser.uid}`).once("value", function(snap) {
+					localStorage.setItem('token', firebase.auth().currentUser.uid);
+                	
+					console.log(snap.val());
+					localStorage.setItem('user_data', JSON.stringify(snap.val()));
+					browserHistory.push('/');
+				});
         
             } else {
                 this.setState({ready:true})
