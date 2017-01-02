@@ -7,7 +7,7 @@ class Nav extends Component {
         super(props);
         this.state = {
         loggedIn: auth.loggedIn(),
-        user: JSON.parse(localStorage.user_data)
+        user: localStorage.user_data ? JSON.parse(localStorage.user_data) : null
         }
 
   }

@@ -8,7 +8,7 @@ class Profile extends Component {
         this.state = {
             ready: false,
             // loggedIn: auth.loggedIn(),
-            user: JSON.parse(localStorage.user_data)
+            user: localStorage.user_data ? JSON.parse(localStorage.user_data) : null
         }
 
         firebase.auth().onAuthStateChanged((user)=> {
@@ -20,6 +20,8 @@ class Profile extends Component {
         });
 
   }
+
+
   
     render() {
         return (
