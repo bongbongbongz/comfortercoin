@@ -8,7 +8,7 @@ class User extends Component {
 			<div className="col-md-12 ">
 				<div className="panel">
 					<div className="panel-heading panel-color">
-						<h3 className="panel-title ">Level</h3>
+						<h3 className="panel-title ">Level {this.props.level}</h3>
 						<div className="pull-right">
 						</div>
 					</div>

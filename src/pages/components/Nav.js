@@ -3,11 +3,12 @@ import auth from '../../auth';
 import { browserHistory } from 'react-router';
 import firebase from '../../api/firebase';
 class Nav extends Component {
-      constructor(props) {
-    super(props);
-    this.state = {
-      loggedIn: auth.loggedIn()
-    }
+    constructor(props) {
+        super(props);
+        this.state = {
+        loggedIn: auth.loggedIn(),
+        user: localStorage.user_data ? JSON.parse(localStorage.user_data) : null
+        }
 
   }
   
@@ -17,6 +18,7 @@ class Nav extends Component {
 
   logout(){
     localStorage.removeItem('token');
+    localStorage.removeItem('user_data');
     firebase.auth().signOut();
     this.setState({loggedIn:false});
     
@@ -47,12 +49,13 @@ class Nav extends Component {
                             <li className={this.props.active === 'contact' ? 'active' : null}><a href="/contact">Contact</a></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                        {this.state.loggedIn ? (
+                        {this.state.user ? (
                             <li className="dropdown">
                                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span className="caret"></span></a>
                                 <ul className="dropdown-menu">
                                 
-                                <li><a onClick={()=>this.logout()}>Logout</a></li>
+                                <li><a href="/profile">{this.state.user.fullName}</a></li>
+                                <li><a onClick={()=>this.logout()}>{'Logout'}</a></li>
                                 </ul>
                             </li>
                         ) : (
