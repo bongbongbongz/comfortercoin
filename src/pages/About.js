@@ -7,7 +7,12 @@ class About extends Component {
             <div>
                 <Nav active="about"/>
                 <div className="container">   
-                    About page
+                 <div className="panel-group">
+                    <div className="panel panel-default">
+                    <div className="panel-heading">Panel with panel-default class</div>
+                    <div className="panel-body">Panel Content</div>
+                    </div>
+                    </div>
                 </div>   
             </div>
         );
