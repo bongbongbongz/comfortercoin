@@ -6,14 +6,18 @@ class About extends Component {
         return (
             <div>
                 <Nav active="about"/>
-                <div className="container">   
-                 <div className="panel-group">
-                    <div className="panel panel-default">
-                    <div className="panel-heading">Panel with panel-default class</div>
-                    <div className="panel-body">Panel Content</div>
-                    </div>
-                    </div>
-                </div>   
+                <div className="container">
+                <div className="row">
+                <div className="panel-group">
+
+                    <div className="panel panel-danger">
+                    <div className="panel-heading">About</div>
+                    <div className="panel-body">Comfortercoin</div>
+                </div>
+                </div>
+                </div>
+                </div>
+
             </div>
         );
     }

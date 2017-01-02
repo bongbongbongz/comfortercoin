@@ -234,8 +234,8 @@ class Login extends Component {
         }
 
         return (
+			<div className="bg">
             <div className="row main">
-
 				<div className="main-login main-center">
 					<form onSubmit={this.handleLoginSubmit}>
 						
@@ -266,9 +266,8 @@ class Login extends Component {
 						<center> <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
 					</form>
 				</div>
-
+			  </div>
 			</div>
-			
         );
     }
 }
