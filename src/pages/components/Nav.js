@@ -46,7 +46,6 @@ class Nav extends Component {
                         <ul className="nav navbar-nav">
                             <li  className={this.props.active === 'home' ? 'active' : null}><a  href="/">Home</a></li>
                             <li className={this.props.active === 'about' ? 'active' : null}><a href="/about">About</a></li>
-                            <li className={this.props.active === 'contact' ? 'active' : null}><a href="/contact">Contact</a></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
                         {this.state.user ? (

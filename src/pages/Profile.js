@@ -30,17 +30,56 @@ class Profile extends Component {
                 <div className="container">  
                 {this.state.ready ? 
                     <section> 
-                    <p>  Name: {this.state.user.fullName} </p>
-                    <p>  parent: {this.state.user.parent} </p>
-                    <p>  postcode: {this.state.user.postcode} </p>
-                    <p>  number: {this.state.user.number} </p>
-                    <p>  email: {this.state.user.email} </p>
-                    <p>  country: {this.state.user.country} </p>
-                    </section> 
-                            :
-                  <div> getting data...</div>} 
-                 </div> 
-            </div>
+                     <div className="col-md-12 ">
+				<div className="panel">
+					<div className="panel-heading panel-color">
+						<h3 className="panel-title ">Profile</h3>
+						<div className="pull-right">
+						</div>
+					</div>
+					<div className="panel-body">
+						<input type="text" className="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />
+					</div>
+                    <div className="table-responsive">
+                        <table className="table table-hover">
+                            <tbody>
+                               <tr>
+                                <td>Full Name</td>
+                                <td>{this.state.user.fullName}</td>
+                            </tr>
+                            <tr>
+                                <td>Number</td>
+                                <td>{this.state.user.number}</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>{this.state.user.email}</td>
+                                
+                            </tr>
+                             <tr>
+                                <td>Bitcoin Wallet</td>
+                                <td>{this.state.user.fullName}</td>
+                            </tr>
+                            <tr>
+                                <td>Country</td>
+                                <td>{this.state.user.country}</td>
+                            </tr>
+                            <tr>
+                                <td>Postcode</td>
+                                <td>{this.state.user.postcode}</td>
+                               
+                            </tr>
+                            
+                            </tbody>
+                        </table>
+				    </div>
+				</div>
+			</div>
+         </section> 
+            :
+    <div> getting data...</div>} 
+  </div> 
+  </div>
         );
     }
 }

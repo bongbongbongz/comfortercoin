@@ -8,17 +8,25 @@ class About extends Component {
                 <Nav active="about"/>
                 <div className="container">
                 <div className="row">
-                <div className="panel-group">
-
-                    <div className="panel panel-danger">
-                    <div className="panel-heading">About</div>
-                    <div className="panel-body">Comfortercoin</div>
-                </div>
-                </div>
-                </div>
-                </div>
-
+                     <div className="col-md-12 ">
+				<div className="panel">
+					<div className="panel-heading panel-color">
+						<h3 className="panel-title ">ConforterCoin Contact Information</h3>
+						<div className="pull-right">
+						</div>
+					</div>
+					<div className="panel-body">
+						<input type="text" className="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />
+					</div>
+                    <div>
+                           <div class="panel-body">Email :comfortercoins@gmail.com </div>   
+                            <div class="panel-body">Tel :0813003900 </div>   
+                    </div>
+				</div>
+			</div>
             </div>
+                </div>
+                </div>
         );
     }
 }
