@@ -15,7 +15,7 @@ class User extends Component {
 					<div className="panel-body">
 						<input type="text" className="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />
 					</div>
-                    <div class="table-responsive">
+                    <div className="table-responsive">
                         <table className="table table-hover">
                             <tbody>
                                 <tr>
