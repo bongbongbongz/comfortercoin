@@ -44,11 +44,11 @@ class Profile extends Component {
                         <table className="table table-hover">
                             <tbody>
                                <tr>
-                                <td>Full Name</td>
+                                <td>Name & Surname</td>
                                 <td>{this.state.user.fullName}</td>
                             </tr>
                             <tr>
-                                <td>Number</td>
+                                <td>Contact number</td>
                                 <td>{this.state.user.number}</td>
                             </tr>
                             <tr>
@@ -59,17 +59,7 @@ class Profile extends Component {
                              <tr>
                                 <td>Bitcoin Wallet</td>
                                 <td>{this.state.user.fullName}</td>
-                            </tr>
-                            <tr>
-                                <td>Country</td>
-                                <td>{this.state.user.country}</td>
-                            </tr>
-                            <tr>
-                                <td>Postcode</td>
-                                <td>{this.state.user.postcode}</td>
-                               
-                            </tr>
-                            
+                            </tr>                         
                             </tbody>
                         </table>
 				    </div>

@@ -77,9 +77,9 @@ class Login extends Component {
         const phoneNo = +this.refs.phone.value
         const bitcoinWallet = this.refs.bitcoinWallet.value
         const sponsorId = +this.refs.sponsorId.value
-        const address = this.refs.address.value
-        const postcode = this.refs.postcode.value
-        const country = this.refs.country.value
+        // const address = this.refs.address.value
+        // const postcode = this.refs.postcode.value
+        // const country = this.refs.country.value
         const fullName = this.refs.fullname.value
 
         var database = firebase.database();
@@ -100,8 +100,7 @@ class Login extends Component {
 			that.checkPhoneNumber(phoneNo, ()=>{
 				firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
 					firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
-						.set({email:snapshot.email,fullName, parent:sponsorId,number:phoneNo,bitcoinWallet:bitcoinWallet,
-							address:address,postcode:postcode,country:country}).then(success=>{
+						.set({email:snapshot.email,fullName, parent:sponsorId,number:phoneNo,bitcoinWallet:bitcoinWallet}).then(success=>{
 							firebase.database().ref(`/smartMoney/users/${parent}/children/${snapshot.uid}`).set(true);
 							//  console.log(success);
 							that.setState({busy:false});
@@ -170,28 +169,7 @@ class Login extends Component {
 							</div>
 						</div>
 
-						<div className="form-group">
-							<label htmlFor="password" className="cols-sm-2 control-label">Address</label>
-							<div className="cols-sm-10">
-								<div className="input-group">
-									<span className="input-group-addon"><i className="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
-									<textarea ref="address" required className="form-control" placeholder="Address">
-                                    </textarea>
-								</div>
-							</div>
-                            <div className="cols-sm-10">
-								<div className="input-group">
-									<span className="input-group-addon"><i className="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
-									<input type="text" ref="country" required className="form-control" name="country" id="country"  placeholder="Country"/>
-								</div>
-							</div>
-                            <div className="cols-sm-10">
-								<div className="input-group">
-									<span className="input-group-addon"><i className="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
-									<input type="text" required ref="postcode" className="form-control" name="postcode" id="postcode"  placeholder="Postcode"/>
-								</div>
-							</div>
-						</div>
+	
 
                         <div className="form-group">
 							<label htmlFor="sponsorId" className="cols-sm-2 control-label">sponsorId</label>
