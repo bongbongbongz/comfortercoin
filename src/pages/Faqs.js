@@ -10,8 +10,8 @@ class Faqs extends Component {
                 <Nav active="about"/>
                <div className="container">
                 <div className="row">
-                     <div className="col-md-12 ">
-                      <h1 class="color-back">For the FAQ’s:</h1>
+                     <div className="col-md-12 color-white">
+                      <h1 class="color-back">FAQ’s:</h1>
 				<div className="panel color-back">
                 
 						<div className="pull-right">
@@ -23,14 +23,14 @@ class Faqs extends Component {
 					</div>
                           <div className='span8 main'>
                        
-                        <p>Q: What is the rate of growth?</p>
-                        <p>A: 50% per month.</p> 
+                        <p className="bg-success">Q: What is the rate of growth?</p>
+                        <p className="bg-info">A: 50% per month.</p> 
                         <br/>
-                        <p>Q: Can members sell their coins?</p>
-                        <p> A: Yes, soon this will be made available, but for now members buy coins from the company and sell to the company.</p>
+                        <p className="bg-success">Q: Can members sell their coins?</p>
+                        <p className="bg-info"> A: Yes, soon this will be made available, but for now members buy coins from the company and sell to the company.</p>
                         <br/>
-                        <p>Q: Can members pay cash to buy Comforter coins?</p>
-                        <p> A: No, only Bitcoins are acceptable and Comforter Coin pays members in Bitcoins.</p>
+                        <p className="bg-success">Q: Can members pay cash to buy Comforter coins?</p>
+                        <p className="bg-info"> A: No, only Bitcoins are acceptable and Comforter Coin pays members in Bitcoins.</p>
                    
                         </div>
                         </div>

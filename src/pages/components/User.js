@@ -20,10 +20,11 @@ class User extends Component {
                             <tbody>
                                 <tr>
                                     
-                                    <th>bitcoinWallet</th>
-                                    <th>email</th>
+                                    <th>Bitcoin Wallet</th>
+                                    <th>Email</th>
                                     <th>Name & Surname</th>
                                     <th>Contact Number</th>
+                                    <th>Sponsor Id</th>
                                    
                                 </tr>
                                 {this.props.users.map(user=>{
@@ -32,6 +33,7 @@ class User extends Component {
                                         <td>{user.email}</td>
                                         <td>{user.fullName}</td>
                                         <td>{user.number}</td>
+                                        <td>{user.parent}</td>
                                     </tr>);
                                 })}
                             </tbody>

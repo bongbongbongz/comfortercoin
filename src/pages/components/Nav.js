@@ -40,7 +40,7 @@ class Nav extends Component {
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <a className="navbar-brand textcolor" href="/">comfortercoin</a>
+                        <a className="navbar-brand textcolor logo" href="/">comfortercoin</a>
                         </div>
                         <div id="navbar" className="navbar-collapse collapse">
                         <ul className="nav navbar-nav">
@@ -53,10 +53,10 @@ class Nav extends Component {
                         {this.state.user ? (
                             <li className="dropdown">
                                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span className="caret"></span></a>
-                                <ul className="dropdown-menu">
+                                <ul className="dropdown-menu text-a">
                                 
-                                <li><a href="/profile">{this.state.user.fullName}</a></li>
-                                <li><a onClick={()=>this.logout()}>{'Logout'}</a></li>
+                                <li><a  href="/profile">{this.state.user.fullName}</a></li>
+                                <li><a  onClick={()=>this.logout()}>{'Logout'}</a></li>
                                 </ul>
                             </li>
                         ) : (
