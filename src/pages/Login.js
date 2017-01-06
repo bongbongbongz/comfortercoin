@@ -89,6 +89,25 @@ class Login extends Component {
         const fullName = this.refs.fullname.value
 
         var database = firebase.database();
+		if(!this.state.addSponsor){
+				//checks if phone number is in use
+				that.checkPhoneNumber(phoneNo, ()=>{
+					firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
+						firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
+							.set({email:snapshot.email,fullName,number:phoneNo,bitcoinWallet:bitcoinWallet,
+								address:address,postcode:postcode,country:country}).then(success=>{
+
+								that.setState({busy:false});
+						}).catch(e => alert(e.message));
+
+					}).catch(err=>{
+						alert(err.message);
+					});
+				});
+
+				return;
+			}
+
 		//checks if sponsor exists
         database.ref('smartMoney/users/').orderByChild("number").equalTo(sponsorId).once("value", function(snap) {
 
@@ -103,26 +122,11 @@ class Login extends Component {
 				return;
 			}
 
-			if(!this.state.addSponsor){
-				firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
-					firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
-						.set({email:snapshot.email,fullName, parent:sponsorId,number:phoneNo,bitcoinWallet:bitcoinWallet,
-							address:address,postcode:postcode,country:country}).then(success=>{
-							
-							that.setState({busy:false});
-					}).catch(e => alert(e.message));
-
-				}).catch(err=>{
-					alert(err.message);
-				});
-
-				return;
-			}
 			//checks if phone number is in use
 			that.checkPhoneNumber(phoneNo, ()=>{
 				firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
 					firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
-						.set({email:snapshot.email,fullName, parent:sponsorId,number:phoneNo,bitcoinWallet:bitcoinWallet,
+						.set({email:snapshot.email,fullName, parent:parent,number:phoneNo,bitcoinWallet:bitcoinWallet,
 							address:address,postcode:postcode,country:country}).then(success=>{
 							firebase.database().ref(`/smartMoney/users/${parent}/children/${snapshot.uid}`).set(true);
 							//  console.log(success);
