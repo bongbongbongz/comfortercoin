@@ -11,10 +11,12 @@ class Login extends Component {
             error: null,
             register: false,
             ready: false,
+			addSponsor: true,
 			busy: false
         }
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
         this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 
         firebase.auth().onAuthStateChanged((user)=> {
             if (user) {
@@ -36,6 +38,10 @@ class Login extends Component {
             }
         });
     }
+
+	handleChange(){
+		this.setState({addSponsor:!this.state.addSponsor});
+	}
 	first(obj) {
     	for (var a in obj) return a;
 	}
@@ -96,6 +102,22 @@ class Login extends Component {
 				alert('check sponsor ID');
 				return;
 			}
+
+			if(!this.state.addSponsor){
+				firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
+					firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
+						.set({email:snapshot.email,fullName, parent:sponsorId,number:phoneNo,bitcoinWallet:bitcoinWallet,
+							address:address,postcode:postcode,country:country}).then(success=>{
+							
+							that.setState({busy:false});
+					}).catch(e => alert(e.message));
+
+				}).catch(err=>{
+					alert(err.message);
+				});
+
+				return;
+			}
 			//checks if phone number is in use
 			that.checkPhoneNumber(phoneNo, ()=>{
 				firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
@@ -111,6 +133,8 @@ class Login extends Component {
 					alert(err.message);
 				});
 			});
+
+
         });
     }
     
@@ -193,7 +217,14 @@ class Login extends Component {
 							</div>
 						</div>
 
-                        <div className="form-group">
+	
+							
+							<div className="cols-sm-10">
+									<label htmlFor="addSponsorId" className="">Add Sponsor</label>
+									<input type="checkbox" checked={this.state.addSponsor} onChange={()=>this.handleChange()} className="form-control" name="sponsorId" id="addSponsorId"  placeholder="Enter sponsorId"/>
+							</div>
+
+                        {!this.state.addSponsor ? null : <div className="form-group">
 							<label htmlFor="sponsorId" className="cols-sm-2 control-label">sponsorId</label>
 							<div className="cols-sm-10">
 								<div className="input-group">
@@ -201,7 +232,7 @@ class Login extends Component {
 									<input type="number" required ref="sponsorId" className="form-control" name="sponsorId" id="sponsorId"  placeholder="Enter sponsorId"/>
 								</div>
 							</div>
-						</div>
+						</div>}
 
                         <div className="form-group">
 							<label htmlFor="pass" className="cols-sm-2 control-label">Password</label>
@@ -229,8 +260,6 @@ class Login extends Component {
 						</div>
 
 						 <center>  <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p> </center>
-
-						<center> <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
 
 					</form>
 				</div>
