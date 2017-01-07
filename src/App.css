@@ -1,3 +1,10 @@
+@import url(https://fonts.googleapis.com/css?family=Oswald:400,300);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+body
+{
+font-family: 'Open Sans', sans-serif;
+}
+
 .App {
   text-align: center;
 }
@@ -26,21 +33,23 @@ body
 {
   background-color: #CFD8DC;
 }
-
-bar
+.color-back
 {
-  margin-top:10%
+  background-color: grey;
 }
 
 .navbar-custom {
-    background-color:#009688;
+    background-color:#53023F;
     color:white;
    -webkit-text-fill-color: white;
-   padding-top:18px;
+   padding-top:22px;
+   margin-bottom:0;
+   text-align: center;
 }
 
 .navbar .nav > li > a {
     color: white;
+    
 }
 .textcolor
 {
@@ -66,5 +75,47 @@ display: none;
 }
 .panel-color
 {
-  background-color:#009688;
+  background-color:#F2B327;
+}
+.text-style {
+    display: block;
+    text-transform: uppercase;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 2em;
+    font-weight: 700;
+}
+
+.text-s {
+    font-size: 1.25em;
+    font-weight: 300;
+}
+.jumbotron
+{
+  padding-top: 200px;
+  padding-bottom: 100px;
+  background-image: url("img/1.jpg");
+  background-size: cover;
+  margin-bottom:0
+}	  
+.text-color{
+  color:grey;
+}
+.color-white
+{
+  background-color:white
+}
+.text-a
+{
+  background-color: grey;
+}
+.text-txt
+{
+  color: #CFD8DC;
+}
+.logo
+{
+  font-weight: bold;
+  font-size: 26px; 
+  color:#F2B327;
+  font-family: "Times New Roman", Georgia, Serif;
 }

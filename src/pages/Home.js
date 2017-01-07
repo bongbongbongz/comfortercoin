@@ -88,9 +88,15 @@ class Home extends Component {
         return (
             <div>
                 <Nav active="home"/>
+                  <div className="jumbotron jumbotron">
+                      <center>
+                       
+                       </center>   
+                    </div>
                 <div className="container">  
+                        
+                    
                 
-
 
                     {this.state.users.map((user, key)=>{
                         return <User key={key} level={key} users={user}/>;

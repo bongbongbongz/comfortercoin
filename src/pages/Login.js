@@ -77,9 +77,9 @@ class Login extends Component {
         const phoneNo = +this.refs.phone.value
         const bitcoinWallet = this.refs.bitcoinWallet.value
         const sponsorId = +this.refs.sponsorId.value
-        const address = this.refs.address.value
-        const postcode = this.refs.postcode.value
-        const country = this.refs.country.value
+        // const address = this.refs.address.value
+        // const postcode = this.refs.postcode.value
+        // const country = this.refs.country.value
         const fullName = this.refs.fullname.value
 
         var database = firebase.database();
@@ -170,28 +170,7 @@ class Login extends Component {
 							</div>
 						</div>
 
-						<div className="form-group">
-							<label htmlFor="password" className="cols-sm-2 control-label">Address</label>
-							<div className="cols-sm-10">
-								<div className="input-group">
-									<span className="input-group-addon"><i className="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
-									<textarea ref="address" required className="form-control" placeholder="Address">
-                                    </textarea>
-								</div>
-							</div>
-                            <div className="cols-sm-10">
-								<div className="input-group">
-									<span className="input-group-addon"><i className="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
-									<input type="text" ref="country" required className="form-control" name="country" id="country"  placeholder="Country"/>
-								</div>
-							</div>
-                            <div className="cols-sm-10">
-								<div className="input-group">
-									<span className="input-group-addon"><i className="glyphicon glyphicon-globe" aria-hidden="true"></i></span>
-									<input type="text" required ref="postcode" className="form-control" name="postcode" id="postcode"  placeholder="Postcode"/>
-								</div>
-							</div>
-						</div>
+	
 
                         <div className="form-group">
 							<label htmlFor="sponsorId" className="cols-sm-2 control-label">sponsorId</label>
@@ -228,9 +207,7 @@ class Login extends Component {
 							{this.state.busy ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> REGISTERING ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Register</button>}
 						</div>
 
-						 <center>  <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p> </center>
-
-						<center> <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
+						<center> <p className="text-info" onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
 
 					</form>
 				</div>
@@ -241,8 +218,8 @@ class Login extends Component {
         }
 
         return (
+			<div className="bg">
             <div className="row main">
-
 				<div className="main-login main-center">
 					<form onSubmit={this.handleLoginSubmit}>
 						
@@ -270,12 +247,11 @@ class Login extends Component {
 							{this.state.busy ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> LOGGING IN ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Login</button>}
 						</div>
 
-						<center> <p onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
+						<center> <p className="text-info" onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
 					</form>
 				</div>
-
+			  </div>
 			</div>
-			
         );
     }
 }

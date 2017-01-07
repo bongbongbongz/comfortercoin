@@ -4,7 +4,9 @@ import App from './App';
 import Home from './pages/Home';
 import About from './pages/About';
 import Login from './pages/Login';
+import Contact from './pages/Contact';
 import Profile from './pages/Profile';
+import Faqs from './pages/Faqs';
 import auth from './auth';
 import './index.css';
 import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router';
@@ -25,6 +27,8 @@ const router = (
     <Route path="/" component={App}>
       <IndexRoute component={Home} onEnter={requireAuth} />
       <Route path="about" component={About} />
+      <Route path="faqs" component={Faqs} />
+      <Route path="contact" component={Contact} />
       <Route path="login" component={Login} onEnter={requireAuth2} />
       <Route path="profile" component={Profile} />
       <Route path="*" component={PageNotFound} />
