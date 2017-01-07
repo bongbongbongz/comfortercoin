@@ -100,7 +100,8 @@ class Login extends Component {
 			that.checkPhoneNumber(phoneNo, ()=>{
 				firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
 					firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
-						.set({email:snapshot.email,fullName, parent:sponsorId,number:phoneNo,bitcoinWallet:bitcoinWallet}).then(success=>{
+						.set({email:snapshot.email,fullName, parent:parent,number:phoneNo,bitcoinWallet:bitcoinWallet,
+							address:address,postcode:postcode,country:country}).then(success=>{
 							firebase.database().ref(`/smartMoney/users/${parent}/children/${snapshot.uid}`).set(true);
 							//  console.log(success);
 							that.setState({busy:false});
