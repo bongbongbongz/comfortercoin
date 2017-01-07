@@ -41,7 +41,9 @@ class Login extends Component {
 	}
     
     handleLoginSubmit(e){
+		
         e.preventDefault();
+		console.log(firebase.database);
 		this.setState({busy:true});
         const email = this.refs.email.value
         const pass = this.refs.pass.value
@@ -81,6 +83,7 @@ class Login extends Component {
         // const postcode = this.refs.postcode.value
         // const country = this.refs.country.value
         const fullName = this.refs.fullname.value
+		const time = new Date().getTime()
 
         var database = firebase.database();
 		//checks if sponsor exists
@@ -100,8 +103,8 @@ class Login extends Component {
 			that.checkPhoneNumber(phoneNo, ()=>{
 				firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
 					firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
-						.set({email:snapshot.email,fullName, parent:parent,number:phoneNo,bitcoinWallet:bitcoinWallet,
-							address:address,postcode:postcode,country:country}).then(success=>{
+						.set({email:snapshot.email,fullName, parent:parent,number:phoneNo,bitcoinWallet:bitcoinWallet,createdAt:time
+							}).then(success=>{
 							firebase.database().ref(`/smartMoney/users/${parent}/children/${snapshot.uid}`).set(true);
 							//  console.log(success);
 							that.setState({busy:false});
