@@ -24,7 +24,7 @@ class Faqs extends Component {
                           <div className='span8 main'>
                        
                         <p className="bg-success">Q: What is the rate of growth?</p>
-                        <p className="bg-info">A: 50% per month.</p> 
+                        <p className="bg-info">A: 50% Compounding per month.</p> 
                         <br/>
                         <p className="bg-success">Q: Can members sell their coins?</p>
                         <p className="bg-info"> A: Yes, soon this will be made available, but for now members buy coins from the company and sell to the company.</p>

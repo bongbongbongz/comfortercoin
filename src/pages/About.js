@@ -37,7 +37,7 @@ class About extends Component {
                             <li>300 members in your downline qualifies you to join Norland at R6000, paving your way to upgrade to Diamond level.</li>
                             <li>1000 members in your downline qualifies you for an iPhone 7, iPad Pro or a MacBook Pro.</li>
                             <li>2000 members qualify you for R5000 per month for 12 months.</li>
-                            <li>4000 members qualify you for a car valued at no less than @200 000.</li>
+                            <li>4000 members qualify you for a car valued at no less than R200 000.</li>
                             <li>8000 members qualify you for a house fully furnished, no less than R1m.</li>
                             <li>In our presentations, we will tell you more about our "half-month’bonuses"</li>
                             </ul>
