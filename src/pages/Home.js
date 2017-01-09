@@ -22,8 +22,8 @@ class Home extends Component {
 
     getChildren(data, levelArr, parent){
         var that = this;
-        console.log(`https://smart-money-f702e.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"&limitToFirst=4`);
-    fetch(`https://smart-money-f702e.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"&limitToFirst=4`,
+        console.log(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"&limitToFirst=4`);
+    fetch(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"&limitToFirst=4`,
       {
           method: 'GET',
               headers: {
@@ -66,7 +66,7 @@ class Home extends Component {
 
     getDetails(level, parent){
     console.log("LEVELLLL "+level);
-    fetch(`https://smart-money-f702e.firebaseio.com/smartMoney/users/${parent}.json`,
+    fetch(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}.json`,
       {
           method: 'GET',
               headers: {

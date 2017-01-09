@@ -58,12 +58,8 @@ class Profile extends Component {
                             </tr>
                              <tr>
                                 <td>Bitcoin Wallet</td>
-                                <td>{this.state.user.fullName}</td>
-                            </tr>     
-                             <tr>
-                                <td>Sponsor Id</td>
-                                <td>{this.state.user.parent}</td>
-                            </tr>                      
+                                <td>{this.state.user.bitcoinWallet}</td>
+                            </tr>                          
                             </tbody>
                         </table>
 				    </div>

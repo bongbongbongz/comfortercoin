@@ -204,7 +204,7 @@ class Login extends Component {
 								</div>
 							</div>
 						</div>
-
+						<center> <p className="text-info"> make your payment to this Bitcoin Wallet: 1BVdB1i4SACdTtQfME5EJRvpnEE6BpXqtv </p></center>
 
 						<div className="form-group ">
 							{this.state.busy ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> REGISTERING ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Register</button>}
