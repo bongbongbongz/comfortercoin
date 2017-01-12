@@ -31,7 +31,7 @@ class User extends Component {
                                     return (<tr key={user.number}>
                                         <td>{user.bitcoinWallet}</td>
                                         <td>{user.email}</td>
-                                        <td>{user.fullName}</td>
+                                        <td><a href={"/user/"+user.id}>{user.fullName}</a></td>
                                         <td>{user.number}</td>
                                         <td>{user.parent}</td>
                                     </tr>);

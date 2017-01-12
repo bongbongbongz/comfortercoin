@@ -11,17 +11,20 @@ class Profile extends Component {
             ready: false,
             // loggedIn: auth.loggedIn(),
             numChildren: 0,
+            nouser: false,
             children: [],
             user:  null
         }
 
-        // firebase.auth().onAuthStateChanged((user)=> {
-        //     if (user) {
-        //         this.setState({ready:true});
-        //     } else {
-        //         browserHistory.push('/login');
-        //     }
-        // });
+        firebase.auth().onAuthStateChanged((user)=> {
+            if (user) {
+
+               this.getChildren(); 
+
+            } else {
+                browserHistory.push('/login');
+            }
+        });
 
   }
 
@@ -31,21 +34,26 @@ class Profile extends Component {
       var database = firebase.database();
         database.ref(`smartMoney/users/${this.props.params.uid}`).once("value", function(snap) {
             console.log(snap.val());
-            let children = snap.val().children;
-            that.setState({ready:true, user: snap.val(), numChildren: Object.keys(children).length})
-            for (var key in children) {
-                if (children.hasOwnProperty(key)) {
-                    database.ref(`smartMoney/users/${key}`).once("value", function(childSnap) {
-                        console.log(childSnap.val());
-                        that.setState({children: [...that.state.children, childSnap.val()]})
-                    });
-                }
+            if(!snap.exists()){
+                that.setState({ready:true, nouser:true});
+                return;
             }
-        });
-  }
+            let children = snap.val().children;
+            let numChildren = children ? Object.keys(children).length : 0;
+            that.setState({ready:true, user: snap.val(), numChildren: numChildren})
+            if(numChildren){
+                for (var key in children) {
+                    if (children.hasOwnProperty(key)) {
+                        database.ref(`smartMoney/users/${key}`).once("value", function(childSnap) {
+                            that.setState({children: [...that.state.children, {...childSnap.val(), id:key}]})
+                        });
+                    }
+                }
 
-  componentDidMount() {
-      this.getChildren();
+            }
+            
+            
+        });
   }
   
     render() {
@@ -53,7 +61,7 @@ class Profile extends Component {
             <div>
                 <Nav active="about"/>
                 <div className="container">  
-                {this.state.ready ? 
+                {this.state.ready && !this.state.nouser &&
                     <section> 
                      <div className="col-md-12 ">
 				<div className="panel">
@@ -94,11 +102,13 @@ class Profile extends Component {
 				    </div>
 				</div>
 			</div>
-            <h3>{this.state.numChildren} people under you</h3>
+            <h3>{this.state.numChildren} people under {this.state.user.fullName}</h3>
             <User level="0" users={this.state.children} />
          </section> 
-            :
-    <div> getting data...</div>} 
+            } 
+
+            {!this.state.ready && <div> getting data...</div>}
+    {this.state.nouser && <h1>No user Found</h1>}
   </div> 
   </div>
         );

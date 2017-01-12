@@ -78,7 +78,7 @@ class Home extends Component {
       .then(responseData=>{
         let users = this.state.users.slice();
         users[level] = users[level] || [];
-        users[level].push(responseData);
+        users[level].push({...responseData, id:parent});
         this.setState({users: users});
         console.log(users);
       });
@@ -96,7 +96,7 @@ class Home extends Component {
                 <div className="container">  
                         
                     
-                
+                {this.state.users.length > 0 && <a href={"/user/"+firebase.auth().currentUser.uid}>Show Level 1</a>}
 
                     {this.state.users.map((user, key)=>{
                         return <User key={key} level={key} users={user}/>;

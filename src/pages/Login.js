@@ -111,6 +111,7 @@ class Login extends Component {
 					}).catch(e => alert(e.message));
 
 				}).catch(err=>{
+					that.setState({busy:false});
 					alert(err.message);
 				});
 			});
