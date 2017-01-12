@@ -4,6 +4,7 @@ import App from './App';
 import Home from './pages/Home';
 import About from './pages/About';
 import Login from './pages/Login';
+import UserPage from './pages/User';
 import Contact from './pages/Contact';
 import Profile from './pages/Profile';
 import Faqs from './pages/Faqs';
@@ -31,6 +32,7 @@ const router = (
       <Route path="contact" component={Contact} />
       <Route path="login" component={Login} onEnter={requireAuth2} />
       <Route path="profile" component={Profile} />
+      <Route path="user/:uid" component={UserPage} />
       <Route path="*" component={PageNotFound} />
     </Route>
   </Router>
