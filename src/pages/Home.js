@@ -20,10 +20,10 @@ class Home extends Component {
         this.getChildren(this.data, this.levelArr, firebase.auth().currentUser.uid);
     }
 
-    getChildren(data, levelArr, parent){
+    getChildren(data, levelArr, parent, nodeparent){
         var that = this;
-        console.log(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"&limitToFirst=4`);
-    fetch(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"&limitToFirst=4`,
+        // console.log(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"`);
+    fetch(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"`,
       {
           method: 'GET',
               headers: {
@@ -33,26 +33,28 @@ class Home extends Component {
               }
       }).then(resp=>resp.json())
       .then(responseData=>{
-        
+        if(nodeparent === firebase.auth().currentUser.uid){
+            this.level = 1;
+        }
         if( responseData){
           if(this.level <= this.state.numLevels){
-            console.log(this.level);
+            // console.log(responseData, parent);
 
-            if(!data[parent]){
+            if(!data.hasOwnProperty(parent)){
               ++this.level;
-              console.log(this.level);
+              console.log("InCREING on "+this.level);
             }else{
-              console.log("AVAILABLE:  " + data[parent] + "  LEVEL:  " + this.level);
+            //   console.log("AVAILABLE:  " + data[parent] + "  LEVEL:  " + this.level);
             }
-            console.log(data[parent]);
+            // console.log(data[parent]);
             data[parent] = levelArr[this.level] = Object.assign({}, data[parent], responseData);
             // levelArr[level] = data[parent];
-            console.log("LEVELLLL "+this.level);
+            // console.log("LEVELLLL "+this.level);
               for(var key in responseData){
                 //   console.log(this.level, key, "YEAHHHHHHHH");
                 if (responseData.hasOwnProperty(key)) {
                     that.getDetails(this.level, key);
-                    that.getChildren(data, levelArr, key)
+                    that.getChildren(data, levelArr, key, responseData[key])
                 }
               }
               
@@ -80,7 +82,7 @@ class Home extends Component {
         users[level] = users[level] || [];
         users[level].push({...responseData, id:parent});
         this.setState({users: users});
-        console.log(users);
+        // console.log(users);
       });
   }
     

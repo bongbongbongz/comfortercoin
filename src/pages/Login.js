@@ -105,7 +105,7 @@ class Login extends Component {
 					firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
 						.set({email:snapshot.email,fullName, parent:parent,number:phoneNo,bitcoinWallet:bitcoinWallet,createdAt:time
 							}).then(success=>{
-							firebase.database().ref(`/smartMoney/users/${parent}/children/${snapshot.uid}`).set(true);
+							firebase.database().ref(`/smartMoney/users/${parent}/children/${snapshot.uid}`).set(parent);
 							//  console.log(success);
 							that.setState({busy:false});
 					}).catch(e => alert(e.message));
