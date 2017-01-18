@@ -1,8 +1,381 @@
 import React, {Component} from 'react';
-import User from './components/User';
 import Nav from './components/Nav';
-import firebase from '../api/firebase';
+
 class Home extends Component {
+  constructor(props) {
+    super(props);
+  
+    this.state = {
+      childrenId: {level1: [], level2: [], level3: [], level4: [], level5: []},
+      children: {level1: [], level2: [], level3: [], level4: [], level5: []},
+      user_data: JSON.parse(localStorage.getItem('user_data')), 
+      level1: false, 
+      level2: false, 
+      level3: false, 
+      level4: false, 
+      level5: false, 
+      disableButtons: false, 
+    };
+  }
+
+  componentDidMount() {
+    var that = this
+    
+    if (that.state.user_data.children) {
+      
+      Object.keys(that.state.user_data.children).map( (key) => {
+        that.state.childrenId.level1.push(key)
+        that.setState({childrenId: that.state.childrenId}, () => {
+          localStorage.setItem('childrenId', JSON.stringify(that.state.childrenId))
+        })
+        return key
+      })
+
+      Object.keys(that.state.user_data.children).map( (key) => {
+        that.fetchUserData(key, (callback) => {
+          that.state.children.level1.push(callback)
+          that.setState({children: that.state.children}, () => {
+            localStorage.setItem('children', JSON.stringify(that.state.children))
+          })
+        })
+        
+        return key
+      })
+    }
+    else {
+      return console.log("no children")
+    }
+
+    //for some reason the first level needs a bit of time to load
+    //this will help in some weird way
+    setTimeout(() => {
+      this.setState({disableButtons: false})
+    }, 1000)
+  }
+
+  fetchChildren(parent, callback) {
+    fetch(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"`,
+    {
+      method: 'GET',
+      headers: {
+        // 'Authorization': token,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }).then(resp => resp.json())
+    .then(responseData => callback(responseData));
+  }
+
+  fetchUserData(parent, callback) {
+    fetch(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}.json`,
+    {
+      method: 'GET',
+      headers: {
+        // 'Authorization': token,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }).then(resp => resp.json())
+    .then(responseData => callback(responseData));
+  }
+
+  getLevel(level, fromLevel) {
+    var that = this
+    var arrLevel = that.state.childrenId['level' + fromLevel]
+
+    that.setState({['level' + level]: !that.state['level' + level], disableButtons: true}, () => {
+
+      if (that.state.children['level' + level].length > 0) return that.setState({disableButtons: false})
+
+      if (level === 1) {
+        return this.setState({level1: !this.state.level1})
+      }
+      else {
+        if (!fromLevel) {
+          return null
+        }
+        else {
+          
+          for (var i = 0; i < arrLevel.length; i++) {
+            that.fetchChildren(arrLevel[i], (id) => {
+              if (id) {
+                Object.keys(id).map( (key) => {
+                  that.state.childrenId['level' + level].push(key)
+
+                  that.fetchUserData(key, (userData) => {
+                    if (userData) {
+                      that.state.children['level' + level].push(userData)
+
+                      that.setState({
+                        childrenId: that.state.childrenId, 
+                        children: that.state.children, 
+                        ['level' + level]: true, 
+                        disableButtons: false, 
+                      })
+                    }
+                  })
+
+                  return key
+                })
+              }
+            })
+          }
+        }
+      }
+    })
+  }
+
+  level1() {
+    var currLevel = 1, nextLevel = 2
+
+    if (this.state.level1) {
+      if (this.state.children.level1.length > 0) {
+        return(
+          <div>
+            <h3>Level 1: {this.state.children.level1.length} users</h3>
+
+            <div className="table-responsive">
+                <table className="table table-hover">
+                    <tbody>
+                      <tr>
+                          <th>Name & Surname</th>
+                          <th>Contact number</th>
+                          <th>Email</th>
+                          <th>Bitcoin Wallet</th>
+                          <th>Sponsor Id</th>
+                      </tr>
+                      {this.users(this.state.children.level1)}
+                    </tbody>
+                </table>
+            </div>
+
+            <br/>
+
+            <button disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
+          </div>
+        )
+      }
+      else {
+        return <h3>Getting users for level 1...</h3>
+      }
+    }
+    else {
+      return null
+    }
+  }
+
+  level2() {
+    var currLevel = 2, nextLevel = 3
+
+    if (this.state.level2) {
+      if (this.state.children.level2.length > 0) {
+        return(
+          <div>
+            <h3>Level 2: {this.state.children.level2.length} users</h3>
+
+            <div className="table-responsive">
+                <table className="table table-hover">
+                    <tbody>
+                      <tr>
+                          <th>Name & Surname</th>
+                          <th>Contact number</th>
+                          <th>Email</th>
+                          <th>Bitcoin Wallet</th>
+                          <th>Sponsor Id</th>
+                      </tr>
+                      {this.users(this.state.children.level2)}
+                    </tbody>
+                </table>
+            </div>
+
+            <br/>
+
+            <button disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
+          </div>
+        )
+      }
+      else {
+        return <h3>Getting users for level 2...</h3>
+      }
+    }
+    else {
+      return null
+    }
+  }
+
+  level3() {
+    var currLevel = 3, nextLevel = 4
+
+    if (this.state.level3) {
+      if (this.state.children.level3.length > 0) {
+        return(
+          <div>
+            <h3>Level 3: {this.state.children.level3.length} users</h3>
+
+            <div className="table-responsive">
+                <table className="table table-hover">
+                    <tbody>
+                      <tr>
+                          <th>Name & Surname</th>
+                          <th>Contact number</th>
+                          <th>Email</th>
+                          <th>Bitcoin Wallet</th>
+                          <th>Sponsor Id</th>
+                      </tr>
+                      {this.users(this.state.children.level3)}
+                    </tbody>
+                </table>
+            </div>
+
+            <br/>
+
+            <button disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
+          </div>
+        )
+      }
+      else {
+        return <h3>Getting users for level 3...</h3>
+      }
+    }
+    else {
+      return null
+    }
+  }
+
+  level4() {
+    var currLevel = 4, nextLevel = 5
+
+    if (this.state.level4) {
+      if (this.state.children.level4.length > 0) {
+        return(
+          <div>
+            <h3>Level 4: {this.state.children.level4.length} users</h3>
+
+            <div className="table-responsive">
+                <table className="table table-hover">
+                    <tbody>
+                      <tr>
+                          <th>Name & Surname</th>
+                          <th>Contact number</th>
+                          <th>Email</th>
+                          <th>Bitcoin Wallet</th>
+                          <th>Sponsor Id</th>
+                      </tr>
+                      {this.users(this.state.children.level4)}
+                    </tbody>
+                </table>
+            </div>
+
+            <br/>
+
+            <button disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
+          </div>
+        )
+      }
+      else {
+        return <h3>Getting users for level 4...</h3>
+      }
+    }
+    else {
+      return null
+    }
+  }
+
+  level5() {
+    var currLevel = 5, nextLevel = null
+
+    if (this.state.level5) {
+      if (this.state.children.level5.length > 0) {
+        return(
+          <div>
+            <h3>Level 5: {this.state.children.level5.length} users</h3>
+
+            <div className="table-responsive">
+                <table className="table table-hover">
+                    <tbody>
+                      <tr>
+                          <th>Name & Surname</th>
+                          <th>Contact number</th>
+                          <th>Email</th>
+                          <th>Bitcoin Wallet</th>
+                          <th>Sponsor Id</th>
+                      </tr>
+                      {this.users(this.state.children.level5)}
+                    </tbody>
+                </table>
+            </div>
+
+            <br/>
+          </div>
+        )
+      }
+      else {
+        return <h3>Getting users for level 5...</h3>
+      }
+    }
+    else {
+      return null
+    }
+  }
+
+  users(users) {
+    return users.map( (user) => {
+      return(
+        <tr key={user.number} >
+            <td>{user.fullName}</td>
+            <td>{user.number}</td>
+            <td>{user.email}</td>
+            <td>{user.fullName}</td>
+            <td>{user.parent}</td>
+        </tr>  
+      )
+    })
+  }
+
+  render() {
+    var user = this.state.user_data
+
+    return(
+      <div>
+        <Nav active="home" />
+
+        <div>
+          <center>
+
+          </center>
+        </div>
+
+        <div className="container" style={{marginBottom: 150}} >
+          <div style={{
+              margin: 25, 
+              borderWidth: 1, 
+              borderColor: '#000000', 
+            }} >
+              <p>Bitcoin Wallet: {user.bitcoinWallet}</p>
+              <p>{user.fullName}</p>
+              <p>{user.email}</p>
+              <p>{user.number}</p>
+
+              <button disabled={this.state.disableButtons} onClick={() => this.getLevel(1, null)} >Show Level 1</button>
+
+              <div>
+                {this.level1()}
+                {this.level2()}
+                {this.level3()}
+                {this.level4()}
+                {this.level5()}
+              </div>
+            </div>
+        </div>
+      </div>
+    )
+  }
+}
+
+export default Home;
+
+/*
+
     parent = "1234";
     data = [];
     levelArr = [];
@@ -18,11 +391,12 @@ class Home extends Component {
             parent: "1234"
         }
         this.getChildren(this.data, this.levelArr, firebase.auth().currentUser.uid);
+        this.test(firebase.auth().currentUser.uid)
     }
 
     getChildren(data, levelArr, parent, nodeparent){
         var that = this;
-        // console.log(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"`);
+        // //console.log(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"`);
     fetch(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"`,
       {
           method: 'GET',
@@ -38,20 +412,20 @@ class Home extends Component {
         }
         if( responseData){
           if(this.level <= this.state.numLevels){
-            // console.log(responseData, parent);
+            // //console.log(responseData, parent);
 
             if(!data.hasOwnProperty(parent)){
               ++this.level;
-              console.log("InCREING on "+this.level);
+              //console.log("InCREING on "+this.level);
             }else{
-            //   console.log("AVAILABLE:  " + data[parent] + "  LEVEL:  " + this.level);
+            //   //console.log("AVAILABLE:  " + data[parent] + "  LEVEL:  " + this.level);
             }
-            // console.log(data[parent]);
+            // //console.log(data[parent]);
             data[parent] = levelArr[this.level] = Object.assign({}, data[parent], responseData);
             // levelArr[level] = data[parent];
-            // console.log("LEVELLLL "+this.level);
+            // //console.log("LEVELLLL "+this.level);
               for(var key in responseData){
-                //   console.log(this.level, key, "YEAHHHHHHHH");
+                //   //console.log(this.level, key, "YEAHHHHHHHH");
                 if (responseData.hasOwnProperty(key)) {
                     that.getDetails(this.level, key);
                     that.getChildren(data, levelArr, key, responseData[key])
@@ -60,14 +434,14 @@ class Home extends Component {
               
           }
               
-          console.log(data, levelArr);
+          //console.log(data, levelArr);
         }
 
       });
   }
 
     getDetails(level, parent){
-    console.log("LEVELLLL "+level);
+    //console.log("LEVELLLL "+level);
     fetch(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}.json`,
       {
           method: 'GET',
@@ -82,10 +456,10 @@ class Home extends Component {
         users[level] = users[level] || [];
         users[level].push({...responseData, id:parent});
         this.setState({users: users});
-        // console.log(users);
+        // //console.log(users);
       });
   }
-    
+
     render() {
         return (
             <div>
@@ -109,6 +483,5 @@ class Home extends Component {
         );
     }
 
-}
 
-export default Home;
+*/

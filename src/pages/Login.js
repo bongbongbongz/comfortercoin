@@ -24,7 +24,6 @@ class Login extends Component {
 				database.ref(`smartMoney/users/${firebase.auth().currentUser.uid}`).once("value", function(snap) {
 					localStorage.setItem('token', firebase.auth().currentUser.uid);
                 	
-					console.log(snap.val());
 					localStorage.setItem('user_data', JSON.stringify(snap.val()));
 					browserHistory.push('/');
 				});
