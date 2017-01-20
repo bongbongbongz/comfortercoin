@@ -157,7 +157,7 @@ class Home extends Component {
       }
   }
 
-  level2() {
+  level2() {  
     var currLevel = 2, nextLevel = 3
 
     if (this.state.level2) {
@@ -169,7 +169,7 @@ class Home extends Component {
             <div className="table-responsive">
                 <table className="table table-hover">
                     <tbody>
-                      <tr className="text-style">
+                      <tr>
                           <th>Name & Surname</th>
                           <th>Contact number</th>
                           <th>Email</th>
@@ -317,7 +317,7 @@ class Home extends Component {
             <td>{user.bitcoinWallet}</td>
             <td>
               <button type="button" 
-                className="btn btn-primary" 
+                className="btn btn-warning btn-xs" 
                 data-toggle="modal" 
                 data-target=".bs-example-modal-lg" 
                 onClick={() => this.getSponsor(user.parent)} >View Sponsor</button>
@@ -342,10 +342,13 @@ class Home extends Component {
 
     if (this.state.currSponsor) {
       return(
-        <div className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div className="modal in modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
           <div className="modal-dialog modal-lg" role="document">
             <div className="modal-content">
-              <h3>{this.state.currSponsor.fullName}</h3>
+               <div class="modal-header">
+                <h4 class="modal-title">Sponsor Details</h4>
+              </div>
+              <span>{this.state.currSponsor.fullName}</span>
               <h3>Contact: {this.state.currSponsor.number}</h3>
               <h3>Email: {this.state.currSponsor.email}</h3>
             </div>
