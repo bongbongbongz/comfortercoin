@@ -151,7 +151,7 @@ class Home extends Component {
           </div>
         </div>
 
-          <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
+          <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >View Level {nextLevel}</button>
         </div>
       )
     }
@@ -185,7 +185,7 @@ class Home extends Component {
             </div>
             <br/>
 
-            <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
+            <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >View Level {nextLevel}</button>
           </div>
         )
       }
@@ -223,7 +223,7 @@ class Home extends Component {
             </div>
             <br/>
 
-            <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
+            <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >View Level {nextLevel}</button>
           </div>
         )
       }
@@ -261,7 +261,7 @@ class Home extends Component {
             </div>
             <br/>
 
-            <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
+            <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >View Level {nextLevel}</button>
           </div>
         )
       }
@@ -346,17 +346,26 @@ class Home extends Component {
     if (this.state.currSponsor) {
       return(
         <div className="modal in modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-          <div className="modal-dialog modal-lg" role="document">
+          <div className="modal-dialog modal-sm" role="document">
             <div className="modal-content">
-               <div class="modal-header">
-                <h4 class="modal-title">Sponsor Details</h4>
+               <div className="modal-header">
+                <center><h4 className="modal-title">Sponsor Details</h4></center>
               </div>
-              <span>{this.state.currSponsor.fullName}</span>
-              <h3>Contact: {this.state.currSponsor.number}</h3>
-              <h3>Email: {this.state.currSponsor.email}</h3>
+               <div className="modal-body">
+                <p>{this.state.currSponsor.fullName}</p>
+                <p>Contact: {this.state.currSponsor.number}</p>
+                <p>{this.state.currSponsor.fullName}</p>
+               </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
           </div>
         </div>
+
+
+
+
       )
     }
     else {
