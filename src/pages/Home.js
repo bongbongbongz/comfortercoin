@@ -127,34 +127,37 @@ class Home extends Component {
 
   level1() {
     var currLevel = 1, nextLevel = 2
-      if (this.state.children.level1.length > 0) {
-        return(
-          <div>
-           
-             <div className="panel panel-default">
-              <div className="panel-body panel-color">  Level 1: {this.state.children.level1.length} users </div>
-                <div className="table-responsive">
-                  <table className="table table-hover">
-                    <tbody>
-                      <tr>
-                          <th>Name & Surname</th>
-                          <th>Contact number</th>
-                          <th>Email</th>
-                          <th>Bitcoin Wallet</th>
-                      </tr>
-                      {this.users(this.state.children.level1)}
-                    </tbody>
-                </table>
-            </div>
+    
+    if (this.state.children.level1.length > 0) {
+      return(
+        <div>
+         
+           <div className="panel panel-default">
+            <div className="panel-body panel-color">  Level 1: {this.state.children.level1.length} users </div>
+              <div className="table-responsive">
+              
+              <table className="table table-hover">
+                <tbody>
+                  <tr>
+                      <th>Name & Surname</th>
+                      <th>Contact number</th>
+                      <th>Email</th>
+                      <th>Bitcoin Wallet</th>
+                  </tr>
+                  
+                  {this.users(this.state.children.level1)}
+                </tbody>
+              </table>
           </div>
+        </div>
 
-            <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
-          </div>
-        )
-      }
-      else {
-        return <h3>Getting users for level 1...</h3>
-      }
+          <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
+        </div>
+      )
+    }
+    else {
+      return <h3>Getting users for level 1...</h3>
+    }
   }
 
   level2() {  

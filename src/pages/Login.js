@@ -44,7 +44,7 @@ class Login extends Component {
     handleLoginSubmit(e){
 		
         e.preventDefault();
-		console.log(firebase.database);
+		
 		this.setState({busy:true});
         const email = this.refs.email.value
         const pass = this.refs.pass.value
@@ -129,10 +129,8 @@ class Login extends Component {
 	        
 	        firebase.auth().sendPasswordResetEmail(email)
 	        .then( () => {
-	        	that.setState({recovering: false}, () => {
-	        		alert('Password Reset Email Sent!')
-	        		that.refs.email.value = ''
-	        		return
+	        	that.setState({recovering: false, recover: false}, () => {
+	        		return alert('Password Reset Email Sent!')
 	        	})
 	        })
 	        .catch( (err) => {
@@ -156,7 +154,7 @@ class Login extends Component {
     			<div className="row main">
     				<div className="main-login main-center">
     					<h4>Reset password</h4>
-    					
+
     					<form onSubmit={this.handleRecoverSubmit.bind(this)}>
 
     						<div className="form-group">

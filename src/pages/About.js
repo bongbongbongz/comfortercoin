@@ -36,7 +36,7 @@ class About extends Component {
                             <li>2000 members qualify you for R5000 per month for 12 months.</li>
                             <li>4000 members qualify you for a car valued at no less than R200 000.</li>
                             <li>8000 members qualify you for a house fully furnished, no less than R1m.</li>
-                            <li>In our presentations, we will tell you more about our "half-month’bonuses"</li>
+                            <li>In our presentations, we will tell you more about our 'half-match' bonuses</li>
                             </ul>
                         </div>
                         </div>
