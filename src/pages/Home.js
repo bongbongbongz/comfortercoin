@@ -9,7 +9,7 @@ class Home extends Component {
       childrenId: {level1: [], level2: [], level3: [], level4: [], level5: []},
       children: {level1: [], level2: [], level3: [], level4: [], level5: []},
       user_data: JSON.parse(localStorage.getItem('user_data')), 
-      level1: false, 
+      level1: true, 
       level2: false, 
       level3: false, 
       level4: false, 
@@ -132,10 +132,11 @@ class Home extends Component {
       if (this.state.children.level1.length > 0) {
         return(
           <div>
-            <h3>Level 1: {this.state.children.level1.length} users</h3>
-
-            <div className="table-responsive">
-                <table className="table table-hover">
+           
+             <div className="panel panel-default">
+              <div className="panel-body panel-color">  Level 1: {this.state.children.level1.length} users </div>
+                <div className="table-responsive">
+                        <table className="table table-hover">
                     <tbody>
                       <tr>
                           <th>Name & Surname</th>
@@ -148,10 +149,9 @@ class Home extends Component {
                     </tbody>
                 </table>
             </div>
+          </div>
 
-            <br/>
-
-            <button disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
+            <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
           </div>
         )
       }
@@ -171,8 +171,8 @@ class Home extends Component {
       if (this.state.children.level2.length > 0) {
         return(
           <div>
-            <h3>Level 2: {this.state.children.level2.length} users</h3>
-
+             <div className="panel panel-default">
+              <div className="panel-body panel-color">Level 2: {this.state.children.level2.length} users </div>
             <div className="table-responsive">
                 <table className="table table-hover">
                     <tbody>
@@ -187,10 +187,10 @@ class Home extends Component {
                     </tbody>
                 </table>
             </div>
-
+            </div>
             <br/>
 
-            <button disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
+            <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
           </div>
         )
       }
@@ -210,8 +210,8 @@ class Home extends Component {
       if (this.state.children.level3.length > 0) {
         return(
           <div>
-            <h3>Level 3: {this.state.children.level3.length} users</h3>
-
+            <div className="panel panel-default">
+              <div className="panel-body panel-color">Level 3: {this.state.children.level3.length} users</div>
             <div className="table-responsive">
                 <table className="table table-hover">
                     <tbody>
@@ -226,10 +226,10 @@ class Home extends Component {
                     </tbody>
                 </table>
             </div>
-
+            </div>
             <br/>
 
-            <button disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
+            <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
           </div>
         )
       }
@@ -249,8 +249,8 @@ class Home extends Component {
       if (this.state.children.level4.length > 0) {
         return(
           <div>
-            <h3>Level 4: {this.state.children.level4.length} users</h3>
-
+            <div className="panel panel-default">
+              <div className="panel-body panel-color">Level 4: {this.state.children.level4.length} users</div>
             <div className="table-responsive">
                 <table className="table table-hover">
                     <tbody>
@@ -265,10 +265,10 @@ class Home extends Component {
                     </tbody>
                 </table>
             </div>
-
+            </div>
             <br/>
 
-            <button disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
+            <button className="btn btn-warning btn-xs" disabled={this.state.disableButtons} onClick={() => this.getLevel(nextLevel, currLevel)} >Show Level {nextLevel}</button>
           </div>
         )
       }
@@ -288,8 +288,8 @@ class Home extends Component {
       if (this.state.children.level5.length > 0) {
         return(
           <div>
-            <h3>Level 5: {this.state.children.level5.length} users</h3>
-
+            <div className="panel panel-default">
+              <div className="panel-body panel-color">Level 5: {this.state.children.level5.length} users</div>
             <div className="table-responsive">
                 <table className="table table-hover">
                     <tbody>
@@ -304,7 +304,7 @@ class Home extends Component {
                     </tbody>
                 </table>
             </div>
-
+            </div>
             <br/>
           </div>
         )
@@ -325,7 +325,7 @@ class Home extends Component {
             <td>{user.fullName}</td>
             <td>{user.number}</td>
             <td>{user.email}</td>
-            <td>{user.fullName}</td>
+            <td>{user.bitcoinWallet}</td>
             <td>{user.parent}</td>
         </tr>  
       )
@@ -340,9 +340,11 @@ class Home extends Component {
         <Nav active="home" />
 
         <div>
-          <center>
-
-          </center>
+           <div className="jumbotron jumbotron">
+                      <center>
+                       
+                       </center>   
+                    </div>
         </div>
 
         <div className="container" style={{marginBottom: 150}} >
@@ -351,12 +353,8 @@ class Home extends Component {
               borderWidth: 1, 
               borderColor: '#000000', 
             }} >
-              <p>Bitcoin Wallet: {user.bitcoinWallet}</p>
-              <p>{user.fullName}</p>
-              <p>{user.email}</p>
-              <p>{user.number}</p>
-
-              <button disabled={this.state.disableButtons} onClick={() => this.getLevel(1, null)} >Show Level 1</button>
+            
+             
 
               <div>
                 {this.level1()}
