@@ -14,6 +14,7 @@ class Home extends Component {
       level4: false, 
       level5: false, 
       disableButtons: false, 
+      currSponsor: '', 
     };
   }
 
@@ -126,21 +127,20 @@ class Home extends Component {
 
   level1() {
     var currLevel = 1, nextLevel = 2
-   if (this.state.children.level1.length > 0) {
+      if (this.state.children.level1.length > 0) {
         return(
           <div>
            
              <div className="panel panel-default">
               <div className="panel-body panel-color">  Level 1: {this.state.children.level1.length} users </div>
                 <div className="table-responsive">
-                        <table className="table table-hover">
+                  <table className="table table-hover">
                     <tbody>
                       <tr>
                           <th>Name & Surname</th>
                           <th>Contact number</th>
                           <th>Email</th>
                           <th>Bitcoin Wallet</th>
-                          <th>Sponsor Id</th>
                       </tr>
                       {this.users(this.state.children.level1)}
                     </tbody>
@@ -174,7 +174,6 @@ class Home extends Component {
                           <th>Contact number</th>
                           <th>Email</th>
                           <th>Bitcoin Wallet</th>
-                          <th>Sponsor Id</th>
                       </tr>
                       {this.users(this.state.children.level2)}
                     </tbody>
@@ -213,7 +212,6 @@ class Home extends Component {
                           <th>Contact number</th>
                           <th>Email</th>
                           <th>Bitcoin Wallet</th>
-                          <th>Sponsor Id</th>
                       </tr>
                       {this.users(this.state.children.level3)}
                     </tbody>
@@ -252,7 +250,6 @@ class Home extends Component {
                           <th>Contact number</th>
                           <th>Email</th>
                           <th>Bitcoin Wallet</th>
-                          <th>Sponsor Id</th>
                       </tr>
                       {this.users(this.state.children.level4)}
                     </tbody>
@@ -291,7 +288,6 @@ class Home extends Component {
                           <th>Contact number</th>
                           <th>Email</th>
                           <th>Bitcoin Wallet</th>
-                          <th>Sponsor Id</th>
                       </tr>
                       {this.users(this.state.children.level5)}
                     </tbody>
@@ -319,10 +315,55 @@ class Home extends Component {
             <td>{user.number}</td>
             <td>{user.email}</td>
             <td>{user.bitcoinWallet}</td>
-            <td>{user.parent}</td>
+            <td>
+              <button type="button" 
+                className="btn btn-primary" 
+                data-toggle="modal" 
+                data-target=".bs-example-modal-lg" 
+                onClick={() => this.getSponsor(user.parent)} >View Sponsor</button>
+            </td>
         </tr>  
       )
     })
+  }
+
+  getSponsor(parent) {
+    var that = this
+
+    that.setState({currSponsor: ''}, () => {
+      that.fetchUserData(parent, (callback) => {
+        return that.setState({currSponsor: callback})
+      })
+    })
+  }
+
+  showSponsor() {
+    var that = this
+
+    if (this.state.currSponsor) {
+      return(
+        <div className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content">
+              <h3>{this.state.currSponsor.fullName}</h3>
+              <h3>Contact: {this.state.currSponsor.number}</h3>
+              <h3>Email: {this.state.currSponsor.email}</h3>
+            </div>
+          </div>
+        </div>
+      )
+    }
+    else {
+      return(
+        <div className="modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content">
+              <h3>Loading data...</h3>
+            </div>
+          </div>
+        </div>
+      )
+    }
   }
 
   render() {
@@ -334,10 +375,10 @@ class Home extends Component {
 
         <div>
            <div className="jumbotron jumbotron">
-                      <center>
-                       
-                       </center>   
-                    </div>
+              <center>
+               
+              </center>   
+            </div>
         </div>
 
         <div className="container" style={{marginBottom: 150}} >
@@ -347,9 +388,8 @@ class Home extends Component {
               borderColor: '#000000', 
             }} >
             
-             
-
               <div>
+                {this.showSponsor()}
                 {this.level1()}
                 {this.level2()}
                 {this.level3()}
