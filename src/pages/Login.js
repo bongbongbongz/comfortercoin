@@ -10,8 +10,10 @@ class Login extends Component {
         this.state = {
             error: null,
             register: false,
+            recover: false,
+            recovering: false,
             ready: false,
-			busy: false
+			busy: false, 
         }
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
         this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
@@ -116,146 +118,236 @@ class Login extends Component {
 			});
         });
     }
+
+    handleRecoverSubmit(e){
+    	var that = this
+		
+        e.preventDefault();
+		
+		that.setState({recovering: true}, () => {
+	        const email = that.refs.email.value
+	        
+	        firebase.auth().sendPasswordResetEmail(email)
+	        .then( () => {
+	        	that.setState({recovering: false}, () => {
+	        		alert('Password Reset Email Sent!')
+	        		that.refs.email.value = ''
+	        		return
+	        	})
+	        })
+	        .catch( (err) => {
+				
+				that.setState({recovering: false}, () => {
+					
+					if (err.code === 'auth/invalid-email') {
+						return alert("Invalid email");
+					}
+					else if (err.code === 'auth/user-not-found') {
+						return alert("User not found");
+					}
+				});
+	        });
+		});
+    }
+
+    recover() {
+    	if (this.state.recover) {
+    		return(
+    			<div className="row main">
+    				<div className="main-login main-center">
+    					<h4>Reset password</h4>
+    					
+    					<form onSubmit={this.handleRecoverSubmit.bind(this)}>
+
+    						<div className="form-group">
+								<label htmlFor="email" className="cols-sm-2 control-label">Your Email</label>
+								
+								<div className="cols-sm-10">
+									<div className="input-group">
+										<span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
+										
+										<input type="email" required ref="email" className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+									</div>
+								</div>
+							</div>
+
+    						<div className="form-group ">
+    							{this.state.recovering ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> SENDING IN ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Submit</button>}
+    						</div>
+    					</form>
+    				</div>
+    			</div>
+    		)
+    	}
+    	else {
+    		return null
+    	}
+    }
     
     render() {
         if(!this.state.ready){
-            return             (<div className="row main">
-				<div className="main-login main-center">
-                <h1>Loading...</h1>
-            </div>
-            </div>
+            return(
+            	<div className="row main">
+					<div className="main-login main-center">
+	                	<h1>Loading...</h1>
+		            </div>
+	            </div>
             );
         }
+
         if (this.state.register){
-                return (
-            <div className="row main">
-				<div className="main-login main-center">
-					<form onSubmit={this.handleRegisterSubmit}>
+			return (
+				<div className="row main">
+					<div className="main-login main-center">
+						<form onSubmit={this.handleRegisterSubmit}>
+
+							<div className="form-group">
+								<label htmlFor="name" className="cols-sm-2 control-label">Your Name</label>
+									
+								<div className="cols-sm-10">
+									<div className="input-group">
+					
+										<span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
+										<input type="text" ref="fullname" required className="form-control" name="name" id="name"  placeholder="Enter your Name"/>
+									</div>
+								</div>
+							</div>
+
+							<div className="form-group">
+								
+								<label htmlFor="email" className="cols-sm-2 control-label">Your Email</label>
 						
-						<div className="form-group">
-							<label htmlFor="name" className="cols-sm-2 control-label">Your Name</label>
-							<div className="cols-sm-10">
-								<div className="input-group">
-								 <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
-									<input type="text" ref="fullname" required className="form-control" name="name" id="name"  placeholder="Enter your Name"/>
+								<div className="cols-sm-10">
+									<div className="input-group">
+										
+										<span className="input-group-addon"><i className="glyphicon glyphicon-envelope"></i></span>
+										<input type="text" ref="email" required className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+									</div>
 								</div>
 							</div>
-						</div>
 
-						<div className="form-group">
-							<label htmlFor="email" className="cols-sm-2 control-label">Your Email</label>
-							<div className="cols-sm-10">
-								<div className="input-group">
-									 <span className="input-group-addon"><i className="glyphicon glyphicon-envelope"></i></span>
-									<input type="text" ref="email" required className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+
+							<div className="form-group">
+								
+								<label htmlFor="phone" className="cols-sm-2 control-label">Phone Number</label>
+								
+								<div className="cols-sm-10">
+									<div className="input-group">
+									
+										<span className="input-group-addon"><i className="glyphicon glyphicon-phone" aria-hidden="true"></i></span>
+										<input type="number" ref="phone" required className="form-control" name="phone" id="phone"  placeholder="Enter Phone Number"/>
+									</div>
 								</div>
 							</div>
-						</div>
 
-                        
-						<div className="form-group">
-							<label htmlFor="phone" className="cols-sm-2 control-label">Phone Number</label>
-							<div className="cols-sm-10">
-								<div className="input-group">
-									<span className="input-group-addon"><i className="glyphicon glyphicon-phone" aria-hidden="true"></i></span>
-									<input type="number" ref="phone" required className="form-control" name="phone" id="phone"  placeholder="Enter Phone Number"/>
+							<div className="form-group">
+						
+								<label htmlFor="bitcoinWallet" className="cols-sm-2 control-label">bitcoinWallet</label>
+						
+								<div className="cols-sm-10">
+									<div className="input-group">
+										<span className="input-group-addon"><i className="glyphicon glyphicon-bitcoins" aria-hidden="true"></i></span>
+										<input type="text" ref="bitcoinWallet" required className="form-control" name="bitcoinWallet" id="bitcoinWallet"  placeholder="Enter bitcoinWallet"/>
+									</div>	
 								</div>
 							</div>
-						</div>
 
-                        <div className="form-group">
-							<label htmlFor="bitcoinWallet" className="cols-sm-2 control-label">bitcoinWallet</label>
-							<div className="cols-sm-10">
-								<div className="input-group">
-									<span className="input-group-addon"><i className="glyphicon glyphicon-bitcoins" aria-hidden="true"></i></span>
-									<input type="text" ref="bitcoinWallet" required className="form-control" name="bitcoinWallet" id="bitcoinWallet"  placeholder="Enter bitcoinWallet"/>
-								</div>	
-							</div>
-						</div>
-
-	
-
-                        <div className="form-group">
-							<label htmlFor="sponsorId" className="cols-sm-2 control-label">sponsorId</label>
-							<div className="cols-sm-10">
-								<div className="input-group">
-									<span className="input-group-addon"><i className="glyphicon glyphicon-user" aria-hidden="true"></i></span>
-									<input type="number" required ref="sponsorId" className="form-control" name="sponsorId" id="sponsorId"  placeholder="Enter sponsorId"/>
+							<div className="form-group">
+								<label htmlFor="sponsorId" className="cols-sm-2 control-label">sponsorId</label>
+								
+								<div className="cols-sm-10">
+									<div className="input-group">
+										<span className="input-group-addon"><i className="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+										<input type="number" required ref="sponsorId" className="form-control" name="sponsorId" id="sponsorId"  placeholder="Enter sponsorId"/>
+									</div>
 								</div>
 							</div>
-						</div>
 
-                        <div className="form-group">
-							<label htmlFor="pass" className="cols-sm-2 control-label">Password</label>
-							<div className="cols-sm-10">
-								<div className="input-group">
-									<span className="input-group-addon"><i className="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
-									<input type="password" required ref="pass" className="form-control" name="pass" id="pass"  placeholder="Password"/>
+							<div className="form-group">
+							
+								<label htmlFor="pass" className="cols-sm-2 control-label">Password</label>
+								<div className="cols-sm-10">
+									<div className="input-group">
+										<span className="input-group-addon"><i className="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
+										<input type="password" required ref="pass" className="form-control" name="pass" id="pass"  placeholder="Password"/>
+									</div>
 								</div>
 							</div>
-						</div>
 
-						<div className="form-group">
-							<label htmlFor="confirm" className="cols-sm-2 control-label">Confirm Password</label>
-							<div className="cols-sm-10">
-								<div className="input-group">
-									<span className="input-group-addon"><i className="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
-									<input type="password" required ref="pass2" className="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
+							<div className="form-group">
+								<label htmlFor="confirm" className="cols-sm-2 control-label">Confirm Password</label>
+								
+								<div className="cols-sm-10">
+									<div className="input-group">
+										<span className="input-group-addon"><i className="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
+										<input type="password" required ref="pass2" className="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
+									</div>
 								</div>
 							</div>
-						</div>
-						<center> <p className="text-info"> make your payment to this Bitcoin Wallet: 1BVdB1i4SACdTtQfME5EJRvpnEE6BpXqtv </p></center>
 
-						<div className="form-group ">
-							{this.state.busy ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> REGISTERING ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Register</button>}
-						</div>
+							<center>
+								<p className="text-info"> make your payment to this Bitcoin Wallet: 1BVdB1i4SACdTtQfME5EJRvpnEE6BpXqtv </p>
+							</center>
 
-						<center> <p className="text-info" onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
+							<div className="form-group ">
+								{this.state.busy ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> REGISTERING ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Register</button>}
+							</div>
 
-					</form>
+							<center>
+								<p className="text-info" onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p>
+							</center>
+
+						</form>
+					</div>
 				</div>
-
-
-			</div>
-        );
+			);
         }
 
-        return (
+		return (
 			<div className="bg">
-            <div className="row main">
-				<div className="main-login main-center">
-					<form onSubmit={this.handleLoginSubmit}>
-						
-						<div className="form-group">
-							<label htmlFor="email" className="cols-sm-2 control-label">Your Email</label>
-							<div className="cols-sm-10">
-								<div className="input-group">
-									 <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
-									<input type="email" required ref="email" className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+				<div className="row main">
+					<div className="main-login main-center">
+						<form onSubmit={this.handleLoginSubmit}>
+
+							<div className="form-group">
+								<label htmlFor="email" className="cols-sm-2 control-label">Your Email</label>
+								
+								<div className="cols-sm-10">
+									<div className="input-group">
+										<span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
+										
+										<input type="email" required ref="email" className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+									</div>
 								</div>
 							</div>
-						</div>
 
-						<div className="form-group">
-							<label htmlFor="password" className="cols-sm-2 control-label">Password</label>
-							<div className="cols-sm-10">
-								<div className="input-group">
-									<span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
-									<input type="password" required ref="pass" className="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+							<div className="form-group">
+								
+								<label htmlFor="password" className="cols-sm-2 control-label">Password</label>
+								
+								<div className="cols-sm-10">
+									<div className="input-group">
+										<span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
+										
+										<input type="password" required ref="pass" className="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+									</div>
 								</div>
 							</div>
-						</div>
 
-						<div className="form-group ">
-							{this.state.busy ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> LOGGING IN ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Login</button>}
-						</div>
+							<div className="form-group ">
+								{this.state.busy ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> LOGGING IN ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Login</button>}
+							</div>
 
-						<center> <p className="text-info" onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
-					</form>
+							<center> <p className="text-info" onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
+						</form>
+
+						<button onClick={() => this.setState({recover: !this.state.recover})} >Request new password</button>
+					</div>
 				</div>
-			  </div>
+
+				{this.recover()}
 			</div>
-        );
+		);
     }
 }
 
