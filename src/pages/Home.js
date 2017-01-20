@@ -169,7 +169,7 @@ class Home extends Component {
             <div className="table-responsive">
                 <table className="table table-hover">
                     <tbody>
-                      <tr>
+                      <tr className="text-style">
                           <th>Name & Surname</th>
                           <th>Contact number</th>
                           <th>Email</th>

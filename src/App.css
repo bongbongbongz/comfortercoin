@@ -70,10 +70,15 @@ font-size: 15px;
 .panel-heading div span{
 margin-left:5px;
 }
-
+.panel-body
+{
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
 .panel-color
 {
   background-color:#F2B327;
+
 }
 .text-style {
     display: block;
@@ -116,4 +121,11 @@ margin-left:5px;
   font-size: 26px; 
   color:#F2B327;
   font-family: "Times New Roman", Georgia, Serif;
+}
+.text-style
+{
+    text-align: left;
+    display: table-cell;
+    padding: 6px;
+    vertical-align: middle;
 }
