@@ -18,9 +18,6 @@ class Faqs extends Component {
 						</div>
 					</div>
                     
-					<div className="panel-body  color-back">
-						<input type="text" className="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />
-					</div>
                           <div className='span8 main'>
                        
                         <p className="bg-success">Q: What is the rate of growth?</p>

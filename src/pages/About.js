@@ -15,10 +15,7 @@ class About extends Component {
 						<div className="pull-right">
 						</div>
 					</div>
-                    
-					<div className="panel-body color-back">
-						<input type="text" className="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />
-					</div>
+                  
                           <div className='span8 main'>
                        
                         <p>Comforter Coin is at Pre-Launch stage. We will evolve into a full global crypto currency in due course.</p> 

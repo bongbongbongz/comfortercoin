@@ -341,7 +341,7 @@ class Login extends Component {
 							<center> <p className="text-info" onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
 						</form>
 
-						<button onClick={() => this.setState({recover: !this.state.recover})} >Request new password</button>
+						<center> <p className="text-info" onClick={() => this.setState({recover: !this.state.recover})} >Request new password</p></center>
 					</div>
 				</div>
 
