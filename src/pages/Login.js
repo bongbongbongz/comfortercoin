@@ -12,6 +12,7 @@ class Login extends Component {
             register: false,
             recover: false,
             recovering: false,
+            recoverEmail: '',
             ready: false,
 			busy: false, 
         }
@@ -123,9 +124,9 @@ class Login extends Component {
     	var that = this
 		
         e.preventDefault();
-		
-		that.setState({recovering: true}, () => {
-	        const email = that.refs.email.value
+
+        that.setState({recovering: true}, () => {
+	        const email = that.state.recoverEmail
 	        
 	        firebase.auth().sendPasswordResetEmail(email)
 	        .then( () => {
@@ -164,7 +165,7 @@ class Login extends Component {
 									<div className="input-group">
 										<span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
 										
-										<input type="email" required ref="email" className="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+										<input type="email" required className="form-control"  placeholder="Enter your Email" onChange={(e) => this.setState({recoverEmail: e.target.value})} />
 									</div>
 								</div>
 							</div>
