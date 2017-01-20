@@ -126,14 +126,14 @@ class Home extends Component {
 
   level1() {
     var currLevel = 1, nextLevel = 2
-   if (this.state.children.level1.length > 0) {
+      if (this.state.children.level1.length > 0) {
         return(
           <div>
            
              <div className="panel panel-default">
               <div className="panel-body panel-color">  Level 1: {this.state.children.level1.length} users </div>
                 <div className="table-responsive">
-                        <table className="table table-hover">
+                  <table className="table table-hover">
                     <tbody>
                       <tr>
                           <th>Name & Surname</th>
@@ -334,10 +334,10 @@ class Home extends Component {
 
         <div>
            <div className="jumbotron jumbotron">
-                      <center>
-                       
-                       </center>   
-                    </div>
+              <center>
+               
+              </center>   
+            </div>
         </div>
 
         <div className="container" style={{marginBottom: 150}} >
@@ -347,8 +347,6 @@ class Home extends Component {
               borderColor: '#000000', 
             }} >
             
-             
-
               <div>
                 {this.level1()}
                 {this.level2()}
