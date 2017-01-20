@@ -9,7 +9,6 @@ class Home extends Component {
       childrenId: {level1: [], level2: [], level3: [], level4: [], level5: []},
       children: {level1: [], level2: [], level3: [], level4: [], level5: []},
       user_data: JSON.parse(localStorage.getItem('user_data')), 
-      level1: true, 
       level2: false, 
       level3: false, 
       level4: false, 
@@ -127,9 +126,7 @@ class Home extends Component {
 
   level1() {
     var currLevel = 1, nextLevel = 2
-
-    if (this.state.level1) {
-      if (this.state.children.level1.length > 0) {
+   if (this.state.children.level1.length > 0) {
         return(
           <div>
            
@@ -158,10 +155,6 @@ class Home extends Component {
       else {
         return <h3>Getting users for level 1...</h3>
       }
-    }
-    else {
-      return null
-    }
   }
 
   level2() {
