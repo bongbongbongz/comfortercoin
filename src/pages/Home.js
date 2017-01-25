@@ -167,21 +167,21 @@ class Home extends Component {
       if (this.state.children.level2.length > 0) {
         return(
           <div>
-             <div className="panel panel-default">
+             <div className="panel panel-default ">
               <div className="panel-body panel-color">Level 2: {this.state.children.level2.length} users </div>
-            <div className="table-responsive">
-                <table className="table table-hover">
-                    <tbody>
-                      <tr>
-                          <th>Name & Surname</th>
-                          <th>Contact number</th>
-                          <th>Email</th>
-                          <th>Bitcoin Wallet</th>
-                      </tr>
-                      {this.users(this.state.children.level2)}
-                    </tbody>
-                </table>
-            </div>
+                <div className="table-responsive">
+                    <table className="table table-hover">
+                        <tbody>
+                          <tr>
+                              <th>Name & Surname</th>
+                              <th>Contact number</th>
+                              <th>Email</th>
+                              <th>Bitcoin Wallet</th>
+                          </tr>
+                          {this.users(this.state.children.level2)}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <br/>
 
@@ -346,15 +346,17 @@ class Home extends Component {
     if (this.state.currSponsor) {
       return(
         <div className="modal in modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-          <div className="modal-dialog modal-sm" role="document">
+          <div className="modal-dialog modal-md" role="document">
             <div className="modal-content">
                <div className="modal-header">
                 <center><h4 className="modal-title">Sponsor Details</h4></center>
               </div>
                <div className="modal-body">
-                <p>{this.state.currSponsor.fullName}</p>
-                <p>Contact: {this.state.currSponsor.number}</p>
-                <p>{this.state.currSponsor.fullName}</p>
+                  <div className="list-group">
+                  <a href="#" className="list-group-item">Name :{this.state.currSponsor.fullName}</a>
+                  <a href="#" className="list-group-item">Contact Number :{this.state.currSponsor.number}</a>
+                  <a href="#" className="list-group-item">Email Address :{this.state.currSponsor.email}</a>
+                </div>
                </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
@@ -362,8 +364,6 @@ class Home extends Component {
             </div>
           </div>
         </div>
-
-
 
 
       )
@@ -387,16 +387,74 @@ class Home extends Component {
     return(
       <div>
         <Nav active="home" />
+        <div className="wrapper">
 
-        <div>
-           <div className="jumbotron jumbotron">
-              <center>
-               
-              </center>   
+    <div className="sidebar margin-Top:0%" data-color="yellow" src="img/sidebar-5.jpg">
+    	<div className="sidebar-wrapper">
+            <div className="logo">
+                <a href="http://www.creative-tim.com" className="simple-text">
+                    Creative Tim
+                </a>
             </div>
-        </div>
 
-        <div className="container" style={{marginBottom: 150}} >
+            <ul className="nav">
+                <li className="active">
+                    <a href="dashboard.html">
+                        <i className="pe-7s-graph"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="user.html">
+                        <i className="pe-7s-user"></i>
+                        <p>User Profile</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="table.html">
+                        <i className="pe-7s-note2"></i>
+                        <p>Table List</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="typography.html">
+                        <i className="pe-7s-news-paper"></i>
+                        <p>Typography</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="icons.html">
+                        <i className="pe-7s-science"></i>
+                        <p>Icons</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="maps.html">
+                        <i className="pe-7s-map-marker"></i>
+                        <p>Maps</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="notifications.html">
+                        <i className="pe-7s-bell"></i>
+                        <p>Notifications</p>
+                    </a>
+                </li>
+				<li className="active-pro">
+                    <a href="upgrade.html">
+                        <i className="pe-7s-rocket"></i>
+                        <p>Upgrade to PRO</p>
+                    </a>
+                </li>
+            </ul>
+    	</div>
+    </div>
+    
+           
+        </div>
+      <div className="content">
+        <div className="container-fluid" style={{marginBottom: 150}} >
+            <div className="row">
           <div style={{
               margin: 25, 
               borderWidth: 1, 
@@ -414,6 +472,9 @@ class Home extends Component {
             </div>
         </div>
       </div>
+        </div>
+      </div>
+      
     )
   }
 }

@@ -154,7 +154,7 @@ class Login extends Component {
     		return(
     			<div className="row main">
     				<div className="main-login main-center">
-    					<h4>Reset password</h4>
+    					<center><h3 className="text-black">Reset password</h3></center>
 
     					<form onSubmit={this.handleRecoverSubmit.bind(this)}>
 
@@ -172,6 +172,7 @@ class Login extends Component {
 
     						<div className="form-group ">
     							{this.state.recovering ? <button type="button" id="button" className="btn btn-primary btn-lg btn-block login-button"> SENDING IN ... </button>: <button type="submit" id="button" className="btn btn-primary btn-lg btn-block login-button">Submit</button>}
+							  <br/>	<center> <p className="text-danger" >Email with password reset instructions will be sent to your inbox</p></center>
     						</div>
     					</form>
     				</div>
@@ -340,7 +341,8 @@ class Login extends Component {
 							<center> <p className="text-info" onClick={()=>this.setState({register: !this.state.register})}>or {!this.state.register ? 'register': 'login'} here</p></center>
 						</form>
 
-						<center> <p className="text-info" onClick={() => this.setState({recover: !this.state.recover})} >Request new password</p></center>
+						<center> <p className="text-info" onClick={() => this.setState({recover: !this.state.recover})} >Reset password</p></center>
+						
 					</div>
 				</div>
 

@@ -95,7 +95,7 @@ class Profile extends Component {
                                         </tr>                          
                                         </tbody>
                                     </table>
-                                    <button onClick={() => this.setState({edit: !this.state.edit})} >Edit</button>
+                                  
                                 </div>
                             </div>
                         </div>
