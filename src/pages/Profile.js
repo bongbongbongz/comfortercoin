@@ -103,7 +103,8 @@ class Profile extends Component {
                                         </tr>                          
                                         </tbody>
                                     </table>
-                                  
+                                    
+                                    <button onClick={() => this.setState({edit: true})} >Update profile</button>
                                 </div>
                             </div>
                         </div>
