@@ -9,7 +9,8 @@ class Profile extends Component {
             ready: false,
             edit: false,
             // loggedIn: auth.loggedIn(),
-            user: localStorage.user_data ? JSON.parse(localStorage.user_data) : null, 
+            user: JSON.parse(localStorage.getItem('user_data')), 
+            token: localStorage.getItem('token'),
             number: '',
             email: '',
             fullName: '',
@@ -22,18 +23,25 @@ class Profile extends Component {
                 browserHistory.push('/login');
             }
         });
-
-  }
+    }
 
     updateProfile() {
         var that = this
-        var updateData = {
-            fullName: that.state.fullName || that.state.user.fullName,
-            email: that.state.email || that.state.user.email,
-            number: that.state.number || that.state.user.number,
-        }
+        
+        that.state.user.fullName = that.state.fullName || that.state.user.fullName
+        that.state.user.email = that.state.email || that.state.user.email
+        that.state.user.number = that.state.number || that.state.user.number
 
-        console.log(updateData)
+        var updates = {}
+        updates['/smartMoney/users/' + that.state.token] = that.state.user
+
+        firebase.database().ref().update(updates)
+        .then(() => {
+            that.setState({user: that.state.user, edit: false}, () => {
+                localStorage.setItem('user_data', JSON.stringify(that.state.user))
+            })
+        })
+        .catch(() => alert('An error occured while updating, please refresh and try again.'))
     }
   
     render() {
