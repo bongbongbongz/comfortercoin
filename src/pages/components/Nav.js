@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import auth from '../../auth';
 import { browserHistory } from 'react-router';
 import firebase from '../../api/firebase';
- var logo = require("./img/comforter.png");
+
 
 class Nav extends Component {
     constructor(props) {
