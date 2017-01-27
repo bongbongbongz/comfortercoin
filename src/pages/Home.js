@@ -1,6 +1,17 @@
 import React, {Component} from 'react';
 import Nav from './components/Nav';
 
+const dateTime = {
+  date: function (date) {
+    var d = new Date(date)
+    return d.toDateString()
+  },
+  time: function (time) {
+    var d = new Date(time)
+    return d.toTimeString().substring(0,8)
+  }
+}
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +26,8 @@ class Home extends Component {
       level5: false, 
       disableButtons: false, 
       currSponsor: '', 
+      terms: false, 
+      termsAccepted: false, 
     };
   }
 
@@ -51,6 +64,19 @@ class Home extends Component {
     setTimeout(() => {
       this.setState({disableButtons: false})
     }, 1000)
+
+    var joinDate = that.state.user_data.createdAt
+    , now = Date.now()
+    , monSec = 1000 * 60 * 60 * 24 * 30
+    , nextMaturity = joinDate + monSec;
+
+    console.log(joinDate)
+    console.log(now)
+    console.log(monSec)
+    console.log(nextMaturity < now)
+    console.log(nextMaturity)
+    console.log(dateTime.date(joinDate) + " " + dateTime.time(joinDate))
+    console.log(dateTime.date(nextMaturity) + " " + dateTime.time(nextMaturity))
   }
 
   fetchChildren(parent, callback) {
@@ -381,101 +407,122 @@ class Home extends Component {
     }
   }
 
+  calculateDate() {
+    return console.log(JSON.parse(localStorage.getItem('user_data')).createdAt)
+  }
+
   render() {
     var user = this.state.user_data
 
-    return(
-      <div>
-        <Nav active="home" />
-        <div className="wrapper">
+    if (this.state.terms) {
+          return(
+            <div>
+              <Nav active="home" />
+              <div className="wrapper">
 
-    <div className="sidebar margin-Top:0%" data-color="yellow" src="img/sidebar-5.jpg">
-    	<div className="sidebar-wrapper">
-            <div className="logo">
-                <a href="http://www.creative-tim.com" className="simple-text">
-                    Creative Tim
-                </a>
+          <div className="sidebar margin-Top:0%" data-color="yellow" src="img/sidebar-5.jpg">
+            <div className="sidebar-wrapper">
+                  <div className="logo">
+                      <a href="http://www.creative-tim.com" className="simple-text">
+                          Creative Tim
+                      </a>
+                  </div>
+
+                  <ul className="nav">
+                      <li className="active">
+                          <a href="dashboard.html">
+                              <i className="pe-7s-graph"></i>
+                              <p>Dashboard</p>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="user.html">
+                              <i className="pe-7s-user"></i>
+                              <p>User Profile</p>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="table.html">
+                              <i className="pe-7s-note2"></i>
+                              <p>Table List</p>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="typography.html">
+                              <i className="pe-7s-news-paper"></i>
+                              <p>Typography</p>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="icons.html">
+                              <i className="pe-7s-science"></i>
+                              <p>Icons</p>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="maps.html">
+                              <i className="pe-7s-map-marker"></i>
+                              <p>Maps</p>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="notifications.html">
+                              <i className="pe-7s-bell"></i>
+                              <p>Notifications</p>
+                          </a>
+                      </li>
+              <li className="active-pro">
+                          <a href="upgrade.html">
+                              <i className="pe-7s-rocket"></i>
+                              <p>Upgrade to PRO</p>
+                          </a>
+                      </li>
+                  </ul>
             </div>
-
-            <ul className="nav">
-                <li className="active">
-                    <a href="dashboard.html">
-                        <i className="pe-7s-graph"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="user.html">
-                        <i className="pe-7s-user"></i>
-                        <p>User Profile</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="table.html">
-                        <i className="pe-7s-note2"></i>
-                        <p>Table List</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="typography.html">
-                        <i className="pe-7s-news-paper"></i>
-                        <p>Typography</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="icons.html">
-                        <i className="pe-7s-science"></i>
-                        <p>Icons</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="maps.html">
-                        <i className="pe-7s-map-marker"></i>
-                        <p>Maps</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="notifications.html">
-                        <i className="pe-7s-bell"></i>
-                        <p>Notifications</p>
-                    </a>
-                </li>
-				<li className="active-pro">
-                    <a href="upgrade.html">
-                        <i className="pe-7s-rocket"></i>
-                        <p>Upgrade to PRO</p>
-                    </a>
-                </li>
-            </ul>
-    	</div>
-    </div>
-    
-           
-        </div>
-      <div className="content">
-        <div className="container-fluid" style={{marginBottom: 150}} >
-            <div className="row">
-          <div style={{
-              margin: 25, 
-              borderWidth: 1, 
-              borderColor: '#000000', 
-            }} >
-            
-              <div>
-                {this.showSponsor()}
-                {this.level1()}
-                {this.level2()}
-                {this.level3()}
-                {this.level4()}
-                {this.level5()}
+          </div>
+          
+                 
+              </div>
+            <div className="content">
+              <div className="container-fluid" style={{marginBottom: 150}} >
+                  <div className="row">
+                <div style={{
+                    margin: 25, 
+                    borderWidth: 1, 
+                    borderColor: '#000000', 
+                  }} >
+                  
+                    <div>
+                      {this.showSponsor()}
+                      {this.level1()}
+                      {this.level2()}
+                      {this.level3()}
+                      {this.level4()}
+                      {this.level5()}
+                    </div>
+                  </div>
               </div>
             </div>
+              </div>
+            </div>
+            
+          )
+    }
+    else {
+      return(
+        <div>
+          <p>Terms and conditions</p>
+          
+          <div>
+            <input type='checkbox' onChange={() => this.setState({termsAccepted: !this.state.termsAccepted})} />
+            <span>Yes I accept the terms</span> 
+          </div>
+          
+          <button>Cancel</button>
+          <button onClick={() => this.setState({terms: true, })} disabled={!this.state.termsAccepted} >Proceed</button>
         </div>
-      </div>
-        </div>
-      </div>
-      
-    )
+      )
+    }
   }
 }
 
