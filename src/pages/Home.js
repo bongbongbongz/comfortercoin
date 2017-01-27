@@ -414,6 +414,7 @@ class Home extends Component {
   render() {
     var user = this.state.user_data
 
+<<<<<<< HEAD
     if (this.state.terms) {
           return(
             <div>
@@ -501,6 +502,119 @@ class Home extends Component {
                       {this.level5()}
                     </div>
                   </div>
+=======
+    return(
+      <div>
+        <Nav active="home" />
+
+         <div className="row tabs">
+                    <div className="col-lg-3 col-md-6">
+                        <div className="panel panel-yellow">
+                            <div className="panel-heading">
+                                <div className="row">
+                                    <div className="col-xs-3">
+                                        <i className="fa fa-comments fa-5x"></i>
+                                    </div>
+                                    <div className="col-xs-9 text-right">
+                                        <div className="huge">26</div>
+                                        <div>New Comments!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div className="panel-footer">
+                                    <span className="pull-left">View Details</span>
+                                    <span className="pull-right"><i className="fa fa-arrow-circle-right"></i></span>
+                                    <div className="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div className="col-lg-3 col-md-6">
+                        <div className="panel panel-yellow">
+                            <div className="panel-heading">
+                                <div className="row">
+                                    <div className="col-xs-3">
+                                        <i className="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div className="col-xs-9 text-right">
+                                        <div className="huge">12</div>
+                                        <div>New Tasks!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div className="panel-footer">
+                                    <span className="pull-left">View Details</span>
+                                    <span className="pull-right"><i className="fa fa-arrow-circle-right"></i></span>
+                                    <div className="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div className="col-lg-3 col-md-6">
+                        <div className="panel panel-yellow">
+                            <div className="panel-heading">
+                                <div className="row">
+                                    <div className="col-xs-3">
+                                        <i className="fa fa-shopping-cart fa-5x"></i>
+                                    </div>
+                                    <div className="col-xs-9 text-right">
+                                        <div className="huge">124</div>
+                                        <div>New Orders!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div className="panel-footer">
+                                    <span className="pull-left">View Details</span>
+                                    <span className="pull-right"><i className="fa fa-arrow-circle-right"></i></span>
+                                    <div className="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div className="col-lg-3 col-md-6">
+                        <div className="panel panel-yellow">
+                            <div className="panel-heading">
+                                <div className="row">
+                                    <div className="col-xs-3">
+                                        <i className="fa fa-support fa-5x"></i>
+                                    </div>
+                                    <div className="col-xs-9 text-right">
+                                        <div className="huge">13</div>
+                                        <div>Support Tickets!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div className="panel-footer">
+                                    <span className="pull-left">View Details</span>
+                                    <span className="pull-right"><i className="fa fa-arrow-circle-right"></i></span>
+                                    <div className="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+      <div className="content">
+        <div className="container-fluid" style={{marginBottom: 150}} >
+            <div className="row">
+          <div style={{
+              margin: 25, 
+              borderWidth: 1, 
+              borderColor: '#000000', 
+            }} >
+            
+              <div>
+                {this.showSponsor()}
+                {this.level1()}
+                {this.level2()}
+                {this.level3()}
+                {this.level4()}
+                {this.level5()}
+>>>>>>> 05ec58caadd804faae3e24c84fe0b9d629add8ea
               </div>
             </div>
               </div>
