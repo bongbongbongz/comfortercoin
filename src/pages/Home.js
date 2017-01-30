@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Nav from './components/Nav';
+import firebase from '../api/firebase';
 
 const dateTime = {
   date: function (date) {
@@ -20,6 +21,7 @@ class Home extends Component {
       childrenId: {level1: [], level2: [], level3: [], level4: [], level5: []},
       children: {level1: [], level2: [], level3: [], level4: [], level5: []},
       user_data: JSON.parse(localStorage.getItem('user_data')), 
+      token: localStorage.getItem('token'),
       level2: false, 
       level3: false, 
       level4: false, 
@@ -28,6 +30,11 @@ class Home extends Component {
       currSponsor: '', 
       terms: false, 
       termsAccepted: false, 
+      joinDate: '', 
+      maturityDate: '', 
+      initialAmount: '',
+      currentAmount: '', 
+      maturityAmount: '', 
     };
   }
 
@@ -65,18 +72,7 @@ class Home extends Component {
       this.setState({disableButtons: false})
     }, 1000)
 
-    var joinDate = that.state.user_data.createdAt
-    , now = Date.now()
-    , monSec = 1000 * 60 * 60 * 24 * 30
-    , nextMaturity = joinDate + monSec;
-
-    console.log(joinDate)
-    console.log(now)
-    console.log(monSec)
-    console.log(nextMaturity < now)
-    console.log(nextMaturity)
-    console.log(dateTime.date(joinDate) + " " + dateTime.time(joinDate))
-    console.log(dateTime.date(nextMaturity) + " " + dateTime.time(nextMaturity))
+    that.calculateDate()
   }
 
   fetchChildren(parent, callback) {
@@ -367,8 +363,6 @@ class Home extends Component {
   }
 
   showSponsor() {
-    var that = this
-
     if (this.state.currSponsor) {
       return(
         <div className="modal in modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -408,7 +402,55 @@ class Home extends Component {
   }
 
   calculateDate() {
-    return console.log(JSON.parse(localStorage.getItem('user_data')).createdAt)
+    var that = this
+    var percentage = 50
+
+    var maturityDate = that.state.user_data.maturityDate
+      , nextMaturity = that.state.user_data.maturityDate
+      , currentAmount = that.state.user_data.currentAmount
+      , now = Date.now()
+      , monSec = 60000 * 60 * 24 * 30
+      , percentageIncrease = (percentage + 100)/100;
+
+    function calculateMaturityDate(now, nextMaturity, done) {
+      if (now >= nextMaturity) {
+        nextMaturity += monSec
+        return calculateMaturityDate(now, nextMaturity, done)
+      }
+      else {
+
+        if (nextMaturity === maturityDate) {
+          return done(maturityDate)
+        }
+        else {
+          //here we update current amount and maturity date in database
+          that.state.user_data.currentAmount = currentAmount * percentageIncrease
+          that.state.user_data.maturityDate = nextMaturity
+
+          var updates = {}
+          updates['/smartMoney/users/' + that.state.token] = that.state.user_data
+
+          firebase.database().ref().update(updates)
+          .then(function () {
+            return done(nextMaturity)
+          })
+          .catch(function () {
+            alert('An error occured while updating your current amount and maturity date, please refresh and try again.')
+            return done(false)
+          })
+        }
+      }
+    }
+
+    calculateMaturityDate(now, nextMaturity, function (done) {
+      if (done === false) return 
+      
+      that.state.user_data.maturityDate = done
+
+      return that.setState({user_data: that.state.user_data}, () => {
+        localStorage.setItem('user_data', JSON.stringify(that.state.user_data))
+      })
+    })
   }
 
   render() {
@@ -433,13 +475,11 @@ class Home extends Component {
                               </div>
                           </div>
                       </div>
-                      <a href="#">
-                          <div className="panel-footer">
-                              <span className="pull-left">View Details</span>
-                              <span className="pull-right"><i className="fa fa-arrow-circle-right"></i></span>
-                              <div className="clearfix"></div>
-                          </div>
-                      </a>
+                      
+                      <div>
+                        <p>Joining date: {dateTime.date(this.state.user_data.createdAt)}</p>
+                        <p>Maturity date: {dateTime.date(this.state.user_data.maturityDate)}</p>
+                      </div>
                   </div>
               </div>
               <div className="col-lg-3 col-md-6">
@@ -455,13 +495,12 @@ class Home extends Component {
                               </div>
                           </div>
                       </div>
-                      <a href="#">
-                          <div className="panel-footer">
-                              <span className="pull-left">View Details</span>
-                              <span className="pull-right"><i className="fa fa-arrow-circle-right"></i></span>
-                              <div className="clearfix"></div>
-                          </div>
-                      </a>
+                      
+                      <div>
+                        <p>Initial amount: {this.state.user_data.initialAmount}</p>
+                        <p>Current amount: {this.state.user_data.currentAmount}</p>
+                        <p>Amount on maturity date: {this.state.user_data.currentAmount * 1.5}</p>
+                      </div>
                   </div>
               </div>
               <div className="col-lg-3 col-md-6">
