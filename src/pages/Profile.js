@@ -48,6 +48,8 @@ class Profile extends Component {
         if (this.state.edit) {
             return(
                 <div>
+                <Nav active="about"/>
+                   <div className="container">  
                     <p>Full name</p>
                     <input type='text' onChange={(e) => this.setState({fullName: e.target.value})} />
                     <br/>
@@ -63,6 +65,7 @@ class Profile extends Component {
 
                     <button onClick={() => this.setState({edit: !this.state.edit})} >Cancel</button>
                     <button onClick={() => this.updateProfile()} >Submit</button>
+                    </div>
                 </div>
             )
         }
