@@ -40,7 +40,7 @@ class Nav extends Component {
                         <div className="container">
                               <div className="logo-wrapper">
                                     <a className="navbar-brand">
-                                    <img alt="comforter"/>
+                                    <img alt="comfortercoin"/>
                                 </a>  
                             </div>  
                             
