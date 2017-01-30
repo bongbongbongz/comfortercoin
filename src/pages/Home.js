@@ -28,7 +28,7 @@ class Home extends Component {
       level5: false, 
       disableButtons: false, 
       currSponsor: '', 
-      terms: false, 
+      terms: localStorage.getItem('termsAccepted') || null, 
       termsAccepted: false, 
       joinDate: '', 
       maturityDate: '', 
@@ -178,7 +178,13 @@ class Home extends Component {
       )
     }
     else {
-      return <h3>Getting users for level 1...</h3>
+
+      if (this.state.user_data.children.length === 0) {
+        return <h3>You have not recruited anyone yet.</h3>
+      }
+      else {
+        return <h3>Getting users for level 1...</h3>
+      }
     }
   }
 
@@ -502,8 +508,8 @@ class Home extends Component {
             <span className="info-box-icon bg-purple"><i className="material-icons">monetization_on</i></span>
 
             <div className="info-box-content">
-              <span className="info-box-text">Amount on maturity date:</span>
-              <span className="info-box-number">R {this.state.user_data.currentAmount * 1.5}</span>
+              <span className="info-box-text">Amount to be earned on maturity date:</span>
+              <span className="info-box-number">R {this.state.user_data.currentAmount * 0.5}</span>
             </div>
           </div>
         </div>
@@ -545,7 +551,7 @@ class Home extends Component {
           </div>
           
           <button>Cancel</button>
-          <button onClick={() => this.setState({terms: true, })} disabled={!this.state.termsAccepted} >Proceed</button>
+          <button onClick={() => this.setState({terms: true, }, () => localStorage.setItem('termsAccepted', true))} disabled={!this.state.termsAccepted} >Proceed</button>
         </div>
       )
     }
