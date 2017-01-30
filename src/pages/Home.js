@@ -1,5 +1,17 @@
 import React, {Component} from 'react';
 import Nav from './components/Nav';
+import firebase from '../api/firebase';
+
+const dateTime = {
+  date: function (date) {
+    var d = new Date(date)
+    return d.toDateString()
+  },
+  time: function (time) {
+    var d = new Date(time)
+    return d.toTimeString().substring(0,8)
+  }
+}
 
 class Home extends Component {
   constructor(props) {
@@ -9,12 +21,20 @@ class Home extends Component {
       childrenId: {level1: [], level2: [], level3: [], level4: [], level5: []},
       children: {level1: [], level2: [], level3: [], level4: [], level5: []},
       user_data: JSON.parse(localStorage.getItem('user_data')), 
+      token: localStorage.getItem('token'),
       level2: false, 
       level3: false, 
       level4: false, 
       level5: false, 
       disableButtons: false, 
       currSponsor: '', 
+      terms: false, 
+      termsAccepted: false, 
+      joinDate: '', 
+      maturityDate: '', 
+      initialAmount: '',
+      currentAmount: '', 
+      maturityAmount: '', 
     };
   }
 
@@ -51,6 +71,8 @@ class Home extends Component {
     setTimeout(() => {
       this.setState({disableButtons: false})
     }, 1000)
+
+    that.calculateDate()
   }
 
   fetchChildren(parent, callback) {
@@ -341,8 +363,6 @@ class Home extends Component {
   }
 
   showSponsor() {
-    var that = this
-
     if (this.state.currSponsor) {
       return(
         <div className="modal in modal fade bs-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -381,33 +401,85 @@ class Home extends Component {
     }
   }
 
-  render() {
+  calculateDate() {
+    var that = this
+    var percentage = 50
+
+    var maturityDate = that.state.user_data.maturityDate
+      , nextMaturity = that.state.user_data.maturityDate
+      , currentAmount = that.state.user_data.currentAmount
+      , now = Date.now()
+      , monSec = 60000 * 60 * 24 * 30
+      , percentageIncrease = (percentage + 100)/100;
+
+    function calculateMaturityDate(now, nextMaturity, done) {
+      if (now >= nextMaturity) {
+        nextMaturity += monSec
+        return calculateMaturityDate(now, nextMaturity, done)
+      }
+      else {
+
+        if (nextMaturity === maturityDate) {
+          return done(maturityDate)
+        }
+        else {
+          //here we update current amount and maturity date in database
+          that.state.user_data.currentAmount = currentAmount * percentageIncrease
+          that.state.user_data.maturityDate = nextMaturity
+
+          var updates = {}
+          updates['/smartMoney/users/' + that.state.token] = that.state.user_data
+
+          firebase.database().ref().update(updates)
+          .then(function () {
+            return done(nextMaturity)
+          })
+          .catch(function () {
+            alert('An error occured while updating your current amount and maturity date, please refresh and try again.')
+            return done(false)
+          })
+        }
+      }
+    }
+
+    calculateMaturityDate(now, nextMaturity, function (done) {
+      if (done === false) return 
+      
+      that.state.user_data.maturityDate = done
+
+      return that.setState({user_data: that.state.user_data}, () => {
+        localStorage.setItem('user_data', JSON.stringify(that.state.user_data))
+      })
+    })
+  }
+
+ render() {
     var user = this.state.user_data
 
-    return(
-      <div>
-        <Nav active="home" />
+    if (this.state.terms) {
+      return(
+        <div>
+          <Nav active="home" />
 
-         
-    <section class="content">
+ <section class="content">
       <div className="row">
         <div className="col-md-3 col-sm-6 col-xs-12">
           <div className="info-box">
-            <span className="info-box-icon bg-purple"><i className="material-icons">monetization_on</i></span>
+            <span className="info-box-icon bg-purple"><i className="material-icons">date_range</i></span>
 
             <div className="info-box-content">
-              <span className="info-box-text">CPU Traffic</span>
-              <span className="info-box-number">90<small>%</small></span>
+              <span className="info-box-text">Joining date:</span>
+              <span className="info-box-number">{dateTime.date(this.state.user_data.createdAt)}</span>
             </div>
           </div>
         </div>
         <div className="col-md-3 col-sm-6 col-xs-12">
           <div className="info-box">
-            <span className="info-box-icon bg-purple"><i className="material-icons">monetization_on</i></span>
+            <span className="info-box-icon bg-purple"><i className="material-icons">date_range</i></span>
 
             <div className="info-box-content">
-              <span className="info-box-text">Likes</span>
-              <span className="info-box-number">41,410</span>
+              <span className="info-box-text">Maturity date:</span>
+              <span className="info-box-number">{dateTime.date(this.state.user_data.maturityDate)}</span>
             </div>
           </div>
         </div>
@@ -419,160 +491,65 @@ class Home extends Component {
             <span className="info-box-icon bg-purple"><i className="material-icons">monetization_on</i></span>
 
             <div className="info-box-content">
-              <span className="info-box-text">Sales</span>
-              <span className="info-box-number">760</span>
+              <span className="info-box-text">Initial amount: {this.state.user_data.initialAmount}</span>
+              <span className="info-box-number">R {this.state.user_data.currentAmount}</span>
+              <span className="info-box-number"></span>
             </div>
           </div>
         </div>
         <div className="col-md-3 col-sm-6 col-xs-12">
           <div className="info-box">
-            <span className="info-box-icon bg-purple"><i className="material-icons">person_pin</i></span>
+            <span className="info-box-icon bg-purple"><i className="material-icons">monetization_on</i></span>
 
             <div className="info-box-content">
-              <span className="info-box-text">Users</span>
-              <span className="info-box-number">0</span>
+              <span className="info-box-text">Amount on maturity date:</span>
+              <span className="info-box-number">R {this.state.user_data.currentAmount * 1.5}</span>
             </div>
           </div>
         </div>
       </div>
       </section>
-      <div className="content">
-        <div className="container-fluid" style={{marginBottom: 150}} >
-            <div className="row">
-          <div style={{
-              margin: 25, 
-              borderWidth: 1, 
-              borderColor: '#000000', 
-            }} >
-            
-              <div>
-                {this.showSponsor()}
-                {this.level1()}
-                {this.level2()}
-                {this.level3()}
-                {this.level4()}
-                {this.level5()}
+    
+        <div className="content">
+            <div className="container-fluid" style={{marginBottom: 150}} >
+              <div className="row">
+                <div style={{
+                    margin: 25, 
+                    borderWidth: 1, 
+                    borderColor: '#000000', 
+                  }} >
+                  
+                  <div>
+                    {this.showSponsor()}
+                    {this.level1()}
+                    {this.level2()}
+                    {this.level3()}
+                    {this.level4()}
+                    {this.level5()}
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
+       </div> 
+      )
+    }
+    else {
+      return(
+        <div>
+          <p>Terms and conditions</p>
+          
+          <div>
+            <input type='checkbox' onChange={() => this.setState({termsAccepted: !this.state.termsAccepted})} />
+            <span>Yes I accept the terms</span> 
+          </div>
+          
+          <button>Cancel</button>
+          <button onClick={() => this.setState({terms: true, })} disabled={!this.state.termsAccepted} >Proceed</button>
         </div>
-      </div>
-        </div>
-      </div>
-      
-    )
+      )
+    }
   }
 }
 
 export default Home;
-
-/*
-
-    parent = "1234";
-    data = [];
-    levelArr = [];
-    level = 0;
-    constructor(props) {
-        super(props);
-        this.state = {
-            users: [],
-            level: 1,
-            numLevels: 4,
-            levelArr: [],
-            data: [],
-            parent: "1234"
-        }
-        this.getChildren(this.data, this.levelArr, firebase.auth().currentUser.uid);
-        this.test(firebase.auth().currentUser.uid)
-    }
-
-    getChildren(data, levelArr, parent, nodeparent){
-        var that = this;
-        // //console.log(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"`);
-    fetch(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}/children.json?orderBy="$key"`,
-      {
-          method: 'GET',
-              headers: {
-                // 'Authorization': token,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-              }
-      }).then(resp=>resp.json())
-      .then(responseData=>{
-        if(nodeparent === firebase.auth().currentUser.uid){
-            this.level = 1;
-        }
-        if( responseData){
-          if(this.level <= this.state.numLevels){
-            // //console.log(responseData, parent);
-
-            if(!data.hasOwnProperty(parent)){
-              ++this.level;
-              //console.log("InCREING on "+this.level);
-            }else{
-            //   //console.log("AVAILABLE:  " + data[parent] + "  LEVEL:  " + this.level);
-            }
-            // //console.log(data[parent]);
-            data[parent] = levelArr[this.level] = Object.assign({}, data[parent], responseData);
-            // levelArr[level] = data[parent];
-            // //console.log("LEVELLLL "+this.level);
-              for(var key in responseData){
-                //   //console.log(this.level, key, "YEAHHHHHHHH");
-                if (responseData.hasOwnProperty(key)) {
-                    that.getDetails(this.level, key);
-                    that.getChildren(data, levelArr, key, responseData[key])
-                }
-              }
-              
-          }
-              
-          //console.log(data, levelArr);
-        }
-
-      });
-  }
-
-    getDetails(level, parent){
-    //console.log("LEVELLLL "+level);
-    fetch(`https://comforter-co.firebaseio.com/smartMoney/users/${parent}.json`,
-      {
-          method: 'GET',
-              headers: {
-                // 'Authorization': token,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-              }
-      }).then(resp=>resp.json())
-      .then(responseData=>{
-        let users = this.state.users.slice();
-        users[level] = users[level] || [];
-        users[level].push({...responseData, id:parent});
-        this.setState({users: users});
-        // //console.log(users);
-      });
-  }
-
-    render() {
-        return (
-            <div>
-                <Nav active="home"/>
-                  <div className="jumbotron jumbotron">
-                      <center>
-                       
-                       </center>   
-                    </div>
-                <div className="container">  
-                        
-                    
-                {this.state.users.length > 0 && <a href={"/user/"+firebase.auth().currentUser.uid}>Show Level 1</a>}
-
-                    {this.state.users.map((user, key)=>{
-                        return <User key={key} level={key} users={user}/>;
-                    })}
-   
-                </div>
-            </div>
-        );
-    }
-
-
-*/
