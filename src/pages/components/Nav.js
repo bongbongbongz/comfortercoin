@@ -22,6 +22,8 @@ class Nav extends Component {
     localStorage.removeItem('token');
     localStorage.removeItem('user_data');
     firebase.auth().signOut();
+    localStorage.removeItem("termsAccepted");
+
     this.setState({loggedIn:false});
     
     setTimeout(()=>{
