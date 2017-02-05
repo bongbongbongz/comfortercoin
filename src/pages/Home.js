@@ -497,8 +497,8 @@ class Home extends Component {
             <span className="info-box-icon bg-purple"><i className="material-icons">monetization_on</i></span>
 
             <div className="info-box-content">
-              <span className="info-box-text">Initial amount: {this.state.user_data.initialAmount}</span>
-              <span className="info-box-number">R {this.state.user_data.currentAmount}</span>
+              <span className="info-box-text">Initial amount: R {this.state.user_data.initialAmount}</span>
+              <span className="info-box-number">Current amount: R {this.state.user_data.currentAmount}</span>
               <span className="info-box-number"></span>
             </div>
           </div>
@@ -508,8 +508,8 @@ class Home extends Component {
             <span className="info-box-icon bg-purple"><i className="material-icons">monetization_on</i></span>
 
             <div className="info-box-content">
-              <span className="info-box-text">Amount to be earned on maturity date:</span>
-              <span className="info-box-number">R {this.state.user_data.currentAmount * 0.5}</span>
+              <span className="info-box-text">Amount on maturity date:</span>
+              <span className="info-box-number">R {this.state.user_data.currentAmount * 1.5}</span>
             </div>
           </div>
         </div>
