@@ -467,7 +467,7 @@ class Home extends Component {
         <div>
           <Nav active="home" />
 
- <section class="content">
+ <section className="content">
       <div className="row">
         <div className="col-md-3 col-sm-6 col-xs-12">
           <div className="info-box">
