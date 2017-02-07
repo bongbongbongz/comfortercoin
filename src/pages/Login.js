@@ -3,7 +3,7 @@ import './style/Login.css';
 import { browserHistory } from 'react-router';
 import lodash from 'lodash'
 var callingCountries = require('country-data').callingCountries;
-var countries = []
+var SA = callingCountries.all[lodash.findIndex(callingCountries.all, {name: 'South Africa'})]
 
 import firebase from '../api/firebase';
 
@@ -18,16 +18,11 @@ class Login extends Component {
             recoverEmail: '',
             ready: false,
 			busy: false, 
+			callingCountries: callingCountries, 
+			country: SA.alpha2, 
+			code: callingCountries[SA.alpha2].countryCallingCodes[0], 
         }
-		console.log(callingCountries);
-		callingCountries.all.filter( (country) => {
-			return countries.push(country.name)
-		})
 
-		console.log(countries)
-		console.log(lodash.findIndex(callingCountries.all, {name: 'South Africa'}))
-		console.log(callingCountries.all[lodash.findIndex(callingCountries.all, {name: 'South Africa'})].countryCallingCodes)
-		
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
         this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
 
@@ -90,7 +85,7 @@ class Login extends Component {
         e.preventDefault();
         const email = this.refs.email.value
         const pass = this.refs.pass.value
-        const phoneNo = +this.refs.phone.value
+        const phoneNo = parseInt(this.state.code.replace(/\s/g,'') + parseInt(this.refs.phone.value))
         const bitcoinWallet = this.refs.bitcoinWallet.value
         const sponsorId = +this.refs.sponsorId.value
         // const address = this.refs.address.value
@@ -99,7 +94,7 @@ class Login extends Component {
         const fullName = this.refs.fullname.value
 		const time = new Date().getTime()
 
-        var database = firebase.database();
+		var database = firebase.database();
 		//checks if sponsor exists
         database.ref('smartMoney/users/').orderByChild("number").equalTo(sponsorId).once("value", function(snap) {
 
@@ -214,17 +209,22 @@ class Login extends Component {
 					<div className="main-login main-center">
 						<form onSubmit={this.handleRegisterSubmit}>
 
-							<div className="dropdown" >
-							
-								<button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-									Select your country
-									<span className="caret"></span>
-								</button>
-								<ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-							
-								</ul>
+							<div>
+								<p style={{color: 'black'}} >Please select your country</p>
+
+								<select name='countryList' onChange={(val) => {
+										this.setState({
+											country: val.target.value, 
+											code: this.state.callingCountries[val.target.value].countryCallingCodes[0]
+										})
+									}} style={{color: 'black'}} required >
+
+									<option value={SA.alpha2} style={{color: 'black'}} >{SA.name}</option>
+
+									{this.state.callingCountries.all.map( (country) => (
+										<option key={country.name} value={country.alpha2} style={{color: 'black'}} >{country.name}</option>
+									))}
+								</select>
 							</div>
 
 							<div className="form-group">
@@ -258,18 +258,15 @@ class Login extends Component {
 								<label htmlFor="phone" className="cols-sm-2 control-label">Phone Number</label>
 								
 								<div className="cols-sm-10">
-								<div className="dropdown" >
-							
-										<button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-											Select your code
-											<span className="caret"></span>
-										</button>
-										<ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-											<li><a href="#">Action</a></li>
-											<li><a href="#">Another action</a></li>
 									
-										</ul>
+									<div>
+										<select name='callingCode' style={{color: 'black'}} onChange={(val) => this.setState({code: val.target.value})} required >
+											{this.state.callingCountries[this.state.country].countryCallingCodes.map( (code) => (
+												<option key={code} style={{color: 'black'}} >{code}</option>
+											))}
+										</select>
 									</div>
+
 									<div className="input-group">
 									   
 										<span className="input-group-addon"><i className="glyphicon glyphicon-phone" aria-hidden="true"></i></span>
