@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import './style/Login.css';
 import { browserHistory } from 'react-router';
-import lodash from 'lodash'
-var callingCountries = require('country-data').callingCountries;
-var countries = []
 
 import firebase from '../api/firebase';
 
@@ -19,15 +16,6 @@ class Login extends Component {
             ready: false,
 			busy: false, 
         }
-		console.log(callingCountries);
-		callingCountries.all.filter( (country) => {
-			return countries.push(country.name)
-		})
-
-		console.log(countries)
-		console.log(lodash.findIndex(callingCountries.all, {name: 'South Africa'}))
-		console.log(callingCountries.all[lodash.findIndex(callingCountries.all, {name: 'South Africa'})].countryCallingCodes)
-		
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
         this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this);
 
@@ -209,29 +197,14 @@ class Login extends Component {
 
         if (this.state.register){
 			return (
-				
 				<div className="row main">
 					<div className="main-login main-center">
 						<form onSubmit={this.handleRegisterSubmit}>
-
-							<div className="dropdown" >
-							
-								<button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-									Select your country
-									<span className="caret"></span>
-								</button>
-								<ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-							
-								</ul>
-							</div>
 
 							<div className="form-group">
 								<label htmlFor="name" className="cols-sm-2 control-label">Your Name</label>
 									
 								<div className="cols-sm-10">
-								
 									<div className="input-group">
 					
 										<span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
@@ -255,23 +228,12 @@ class Login extends Component {
 
 
 							<div className="form-group">
+								
 								<label htmlFor="phone" className="cols-sm-2 control-label">Phone Number</label>
 								
 								<div className="cols-sm-10">
-								<div className="dropdown" >
-							
-										<button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-											Select your code
-											<span className="caret"></span>
-										</button>
-										<ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-											<li><a href="#">Action</a></li>
-											<li><a href="#">Another action</a></li>
-									
-										</ul>
-									</div>
 									<div className="input-group">
-									   
+									
 										<span className="input-group-addon"><i className="glyphicon glyphicon-phone" aria-hidden="true"></i></span>
 										<input type="number" ref="phone" required className="form-control" name="phone" id="phone"  placeholder="Enter Phone Number"/>
 									</div>
