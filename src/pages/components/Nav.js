@@ -22,7 +22,7 @@ class Nav extends Component {
     localStorage.removeItem('token');
     localStorage.removeItem('user_data');
     firebase.auth().signOut();
-    
+    localStorage.removeItem('termsAccepted');
 
     this.setState({loggedIn:false});
     
@@ -42,11 +42,10 @@ class Nav extends Component {
                         <div className="container">
                               <div className="logo-wrapper">
                                     <a className="navbar-brand">
-                                    <img alt="comfortercoin"/>
+                                    <img  alt="comfortercoin"/>
                                 </a>  
                             </div>  
                             
-                      
                         <div id="navigation" className="collapse navbar-collapse navbar-right">
                             <ul className="nav navbar-nav">
                              <li  className={this.props.active === 'home' ? 'active' : null}><a  href="/">Home</a></li>
@@ -59,8 +58,7 @@ class Nav extends Component {
                                       <li><a  onClick={()=>this.logout()}>{'Logout'}</a></li>
                                </ul>
                             </li>
-                             ) : (
-                            )}
+                            
                             </ul>
                         </div>
                         </div>
