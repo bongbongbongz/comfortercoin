@@ -183,14 +183,14 @@ class Home extends Component {
       if (this.state.user_data.children) {
         if(this.state.user_data.children.length === 0)
         {
-         return <h3>You have not recruited anyone yet.</h3>
+          return  <center><h3>You have not recruited anyone yet.</h3></center>
         }
         else{
           return <h3>Getting users for level 1...</h3>
         }
       }
       else {
-        return <h3>You have not recruited anyone yet</h3>
+        return <center><h3>You have not recruited anyone yet.</h3></center>
       }
     }
   }
@@ -566,21 +566,23 @@ class Home extends Component {
     }
     else {
       return(
-        <div className="row main "> 
+        <div className="row main"> 
     				<div className="main-login main-center">
              <center>
              <p className="text-info">Terms and conditions</p>
-             <p className="text-info">terms terms terms</p>
+             <p className="text-info">By clicking on Log-in, I agree to be bound by the rules of Comfortercoin.</p>
             <div>
               <input type='checkbox' onChange={() => this.setState({termsAccepted: !this.state.termsAccepted})} />
               <span className="text-info">Yes I accept the terms</span> 
             </div>
-          
+          <br/>
           <button className="text-info" onClick={()=> this.logout()}>Cancel</button>
           <button className="text-info" onClick={() => this.setState({terms: true, }, () => localStorage.setItem('termsAccepted', true))} disabled={!this.state.termsAccepted} >Proceed</button>
-          <br/>
+          <br/><br/>
           </center> 
+
         </div>
+        <br/>
         </div>
       )
     }
