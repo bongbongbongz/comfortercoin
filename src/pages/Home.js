@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Nav from './components/Nav';
 import firebase from '../api/firebase';
+import { browserHistory } from 'react-router';
 
 const dateTime = {
   date: function (date) {
@@ -178,12 +179,18 @@ class Home extends Component {
       )
     }
     else {
-
-      if (this.state.user_data.children.length === 0) {
-        return <h3>You have not recruited anyone yet.</h3>
+        console.log(this.state.user_data);
+      if (this.state.user_data.children) {
+        if(this.state.user_data.children.length === 0)
+        {
+          return  <center><h3>You have not recruited anyone yet.</h3></center>
+        }
+        else{
+          return <h3>Getting users for level 1...</h3>
+        }
       }
       else {
-        return <h3>Getting users for level 1...</h3>
+        return <center><h3>You have not recruited anyone yet.</h3></center>
       }
     }
   }
@@ -459,7 +466,24 @@ class Home extends Component {
     })
   }
 
+  logout(){
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_data');
+    firebase.auth().signOut();
+    localStorage.removeItem('termsAccepted');
+
+    this.setState({loggedIn:false});
+    
+    setTimeout(()=>{
+        browserHistory.push('/login');
+    }, 2000);
+    
+    
+  }
+
  render() {
+
+
     var user = this.state.user_data
 
     if (this.state.terms) {
@@ -542,16 +566,23 @@ class Home extends Component {
     }
     else {
       return(
-        <div>
-          <p>Terms and conditions</p>
-          
-          <div>
-            <input type='checkbox' onChange={() => this.setState({termsAccepted: !this.state.termsAccepted})} />
-            <span>Yes I accept the terms</span> 
-          </div>
-          
-          <button>Cancel</button>
-          <button onClick={() => this.setState({terms: true, }, () => localStorage.setItem('termsAccepted', true))} disabled={!this.state.termsAccepted} >Proceed</button>
+        <div className="row main"> 
+    				<div className="main-login main-center">
+             <center>
+             <p className="text-info">Terms and conditions</p>
+             <p className="text-info">By clicking on Log-in, I agree to be bound by the rules of Comfortercoin.</p>
+            <div>
+              <input type='checkbox' onChange={() => this.setState({termsAccepted: !this.state.termsAccepted})} />
+              <span className="text-info">Yes I accept the terms</span> 
+            </div>
+          <br/>
+          <button className="text-info" onClick={()=> this.logout()}>Cancel</button>
+          <button className="text-info" onClick={() => this.setState({terms: true, }, () => localStorage.setItem('termsAccepted', true))} disabled={!this.state.termsAccepted} >Proceed</button>
+          <br/><br/>
+          </center> 
+
+        </div>
+        <br/>
         </div>
       )
     }

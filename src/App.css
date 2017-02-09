@@ -47,6 +47,7 @@ background: lightgray
     
 }
 
+
 .textcolor
 {
   color: white; 
@@ -111,6 +112,11 @@ margin-left:5px;
   font-size: 26px; 
     color: #f39c12;
   font-family: "Times New Roman", Georgia, Serif;
+  background-image: url("./img/comforter.png");
+}
+
+.logo-img{
+    background-image: url("./img/comforter.png");
 }
 .text-style
 {
@@ -139,6 +145,9 @@ a {
 
 .tabs{
   margin-top:2% 
+}
+.login{
+    background-color: #53023F;
 }
 
 

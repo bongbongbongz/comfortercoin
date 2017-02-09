@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './style/Login.css';
 import { browserHistory } from 'react-router';
+
 import lodash from 'lodash'
 import validator from 'validator'
 var callingCountries = require('country-data').callingCountries;
@@ -222,15 +223,16 @@ class Login extends Component {
 
         if (this.state.register){
 			return (
-				
 				<div className="row main">
 					<div className="main-login main-center">
+				     <center><h3 style={{color: 'black'}}>Register Here</h3></center>
+					 <br/>
 						<form onSubmit={this.handleRegisterSubmit}>
-
-							<div>
-								<p style={{color: 'black'}} >Please select your country</p>
-
-								<select name='countryList' onChange={(val) => {
+					
+							<div className="dropdown">
+							   <div className="form-group">
+								<label htmlFor="name" className="cols-sm-2 control-label">Select your Country</label>
+								<select className="btn btn-default dropdown-toggle" name='countryList' onChange={(val) => {
 										this.setState({
 											country: val.target.value, 
 											code: this.state.callingCountries[val.target.value].countryCallingCodes[0]
@@ -243,15 +245,13 @@ class Login extends Component {
 										<option key={country.name} value={country.alpha2} style={{color: 'black'}} >{country.name}</option>
 									))}
 								</select>
+								</div>
 							</div>
-
+							
 							<div className="form-group">
 								<label htmlFor="name" className="cols-sm-2 control-label">Your Name</label>
-									
 								<div className="cols-sm-10">
-								
 									<div className="input-group">
-					
 										<span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
 										<input type="text" ref="fullname" required className="form-control" name="name" id="name"  placeholder="Enter your Name"/>
 									</div>
@@ -273,21 +273,20 @@ class Login extends Component {
 
 
 							<div className="form-group">
+								
 								<label htmlFor="phone" className="cols-sm-2 control-label">Phone Number</label>
 								
 								<div className="cols-sm-10">
 									
-									<div>
-										<select name='callingCode' style={{color: 'black'}} onChange={(val) => this.setState({code: val.target.value})} required >
+									<div className="input-group">
+									
+										<span className="input-group-addon"><div>
+										<select  className="btn btn-default dropdown-toggle" name='callingCode' style={{color: 'black'}} onChange={(val) => this.setState({code: val.target.value})} required >
 											{this.state.callingCountries[this.state.country].countryCallingCodes.map( (code) => (
 												<option key={code} style={{color: 'black'}} >{code}</option>
 											))}
 										</select>
-									</div>
-
-									<div className="input-group">
-									   
-										<span className="input-group-addon"><i className="glyphicon glyphicon-phone" aria-hidden="true"></i></span>
+									</div></span>
 										<input type="number" ref="phone" required className="form-control" name="phone" id="phone"  placeholder="Enter Phone Number"/>
 									</div>
 								</div>
@@ -299,7 +298,7 @@ class Login extends Component {
 						
 								<div className="cols-sm-10">
 									<div className="input-group">
-										<span className="input-group-addon"><i className="glyphicon glyphicon-bitcoins" aria-hidden="true"></i></span>
+										<span className="input-group-addon"><i className="glyphicon glyphicon-bitcoin" aria-hidden="true"></i></span>
 										<input type="text" ref="bitcoinWallet" required className="form-control" name="bitcoinWallet" id="bitcoinWallet"  placeholder="Enter bitcoinWallet"/>
 									</div>	
 								</div>
