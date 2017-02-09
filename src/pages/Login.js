@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './style/Login.css';
 import { browserHistory } from 'react-router';
 import lodash from 'lodash'
+import validator from 'validator'
 var callingCountries = require('country-data').callingCountries;
 var SA = callingCountries.all[lodash.findIndex(callingCountries.all, {name: 'South Africa'})]
 
@@ -80,9 +81,11 @@ class Login extends Component {
 	}
 
     handleRegisterSubmit(e){
-		this.setState({busy:true});
+		this.setState({busy: true});
+
 		var that = this;
         e.preventDefault();
+        
         const email = this.refs.email.value
         const pass = this.refs.pass.value
         const phoneNo = parseInt(this.state.code.replace(/\s/g,'') + parseInt(this.refs.phone.value))
@@ -94,29 +97,44 @@ class Login extends Component {
         const fullName = this.refs.fullname.value
 		const time = new Date().getTime()
 
+		//validations
+		if (!validator.isEmail(email)) return alert("A valid email is required")
+
+		if (!fullName) return alert("Full name is required")
+
+		if (!pass) return alert("Password is required")
+
+		if (!phoneNo) return alert("Phone number is required")
+
+		if (!bitcoinWallet) return alert("Bitcoin wallet is required")
+
+		if (!sponsorId) return alert("Sponsor ID is required")		
+
 		var database = firebase.database();
 		//checks if sponsor exists
         database.ref('smartMoney/users/').orderByChild("number").equalTo(sponsorId).once("value", function(snap) {
 
-			if(!snap.exists()){
+			if (!snap.exists()) {
 				alert(`sponsor ${sponsorId} does not exist`);
 				that.setState({busy:false});
 				return;
 			}
+
 			var parent = that.first(snap.val());
-			if(!parent){
+
+			if (!parent) {
 				alert('check sponsor ID');
 				return;
 			}
+
 			//checks if phone number is in use
 			that.checkPhoneNumber(phoneNo, ()=>{
 				firebase.auth().createUserWithEmailAndPassword(email,pass).then(snapshot =>{
 					firebase.database().ref(`/smartMoney/users/${snapshot.uid}/`)
-						.set({email:snapshot.email,fullName, parent:parent,number:phoneNo,bitcoinWallet:bitcoinWallet,createdAt:time
-							}).then(success=>{
-							firebase.database().ref(`/smartMoney/users/${parent}/children/${snapshot.uid}`).set(parent);
-							//  console.log(success);
-							that.setState({busy:false});
+					.set({email: snapshot.email, fullName, parent: parent, number: phoneNo, bitcoinWallet: bitcoinWallet, createdAt: time})
+					.then(success => {
+						firebase.database().ref(`/smartMoney/users/${parent}/children/${snapshot.uid}`).set(parent);
+						that.setState({busy:false});
 					}).catch(e => alert(e.message));
 
 				}).catch(err=>{
